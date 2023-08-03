@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poiret+One&family=Rock+Salt&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' /> 
+  </head>
+  <body>  
+      <div class="navbar">
+        <div class="logo">
+          <a href="#"><img src="assets/factorio_blueprint_maker_logo.png"></a>
+        </div>
+        
+        <div class="navbar-links">
+          <ul>
+            <img src="assets/factorio_blueprint_maker_logo.png" class="menu-hamburger-logo">
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Donate</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="signup.html">Signup</a></li>
+          </ul>
+        </div>
+        <img src="./assets/menu-button.png" alt="menu" class="menu-hamburger">
+
+      </div>
+    <div class="test2">
+    <div class="login-container">
+      <div class="input-form">
+        <h1>Welcome</h1>
+        <h2>Signin to continue</h2>
+        <div class="test">
+          <label>Email</label>
+          <input type="text" id="email" placeholder="Enter your Email">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="Enter your Password">
+          <button class="signin-button">Sign In</button>
+        </div>
+        <a href="#" class="link-forgotpassword">Forgot Password?</a>
+        <div class="or-container">
+          <hr><h4>or</h4><hr>
+        </div>
+        <button class="signinWithGoogle">
+          <img src="assets/google_logo.png">
+          <p>Sign in with Google</p>
+        </button>
+        <button class="signinWithSteam">
+          <img src="assets/steam_logo.png">
+          <p>Sign in with Steam</p>
+        </button>
+
+        <a href="signup.html" class="link-notmember">Not a member? Signup</a>
+      </div>
+  </div>
+</div>
+
+<script src="auth.js" type="module"></script>
+<script>
+  const menuHamburger = document.querySelector(".menu-hamburger")
+  const navLinks = document.querySelector(".navbar-links")
+
+  menuHamburger.addEventListener('click',()=>{
+    navLinks.classList.toggle('mobile-menu')
+  })
+</script>
+  </body>
+</html>
