@@ -86,6 +86,7 @@ if(signinWithGoogle) {
 function logoutUser() {
     signOut(auth).then(() => {
         checkAuthState();
+        window.location.replace("./login.html");
     }).catch((error) => {
         console.log(error.message);
     });

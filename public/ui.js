@@ -7,6 +7,12 @@ function fetchAndDisplayHeader() {
     const headerFileUrl = 'header.html';
   
     fetch(headerFileUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
       .then((headerContent) => {
         headerContainer.innerHTML = headerContent;
         
@@ -18,17 +24,16 @@ function fetchAndDisplayHeader() {
             navLinks.classList.toggle('mobile-menu')
         })
 
-        // check for logout events
         const logoutBtn = document.getElementById("logout-link");
         logoutBtn.addEventListener("click", function() {
           logoutUser();
         });
       })
-
       .catch((error) => {
         console.error('Error fetching the header:', error);
       });
   }
+
 
 
 // Automatically fetch and display the header when the page loads
