@@ -8,61 +8,57 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' /> 
   </head>
   <body>  
-      <div class="navbar">
-        <div class="logo">
-          <a href="#"><img src="assets/factorio_blueprint_maker_logo.png"></a>
-        </div>
-        
-        <div class="navbar-links">
-          <ul>
-            <img src="assets/factorio_blueprint_maker_logo.png" class="menu-hamburger-logo">
-            <li><a href="#">Explore</a></li>
-            <li><a href="#">Donate</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="signup.html">Signup</a></li>
-          </ul>
-        </div>
-        <img src="./assets/menu-button.png" alt="menu" class="menu-hamburger">
 
-      </div>
+    <div id="header-container"></div>
+
     <div class="test2">
-    <div class="login-container">
-      <div class="input-form">
-        <h1>Welcome</h1>
-        <h2>Signin to continue</h2>
-        <div class="test">
-          <label>Email</label>
-          <input type="text" id="email" placeholder="Enter your Email">
-          <label>Password</label>
-          <input type="password" id="password" placeholder="Enter your Password">
-          <button class="signin-button">Sign In</button>
-        </div>
-        <a href="#" class="link-forgotpassword">Forgot Password?</a>
-        <div class="or-container">
-          <hr><h4>or</h4><hr>
-        </div>
-        <button class="signinWithGoogle">
-          <img src="assets/google_logo.png">
-          <p>Sign in with Google</p>
-        </button>
-        <button class="signinWithSteam">
-          <img src="assets/steam_logo.png">
-          <p>Sign in with Steam</p>
-        </button>
+      <div class="login-container">
+        <div class="input-form">
+          <h1>Welcome</h1>
+          <h2>Signin to continue</h2>
+          <div class="test">
+            <label>Email</label>
+            <input type="text" id="email" placeholder="Enter your Email">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter your Password">
+            <button class="signin-button">Sign In</button>
+          </div>
+          <a href="#" class="link-forgotpassword">Forgot Password?</a>
+          <div class="or-container">
+            <hr><h4>or</h4><hr>
+          </div>
+          <button class="signinWithGoogle">
+            <img src="assets/google_logo.png">
+            <p>Sign in with Google</p>
+          </button>
+          <button class="signinWithSteam">
+            <img src="assets/steam_logo.png">
+            <p>Sign in with Steam</p>
+          </button>
 
-        <a href="signup.html" class="link-notmember">Not a member? Signup</a>
-      </div>
+          <a href="signup.html" class="link-notmember">Not a member? Sign Up</a>
+        </div>
+    </div>
   </div>
-</div>
 
-<script src="auth.js" type="module"></script>
-<script>
-  const menuHamburger = document.querySelector(".menu-hamburger")
-  const navLinks = document.querySelector(".navbar-links")
+  <script src="ui.js" type="module"></script>
+  <script src="auth.js" type="module"></script>
 
-  menuHamburger.addEventListener('click',()=>{
-    navLinks.classList.toggle('mobile-menu')
-  })
-</script>
-  </body>
+  <script type="module">
+
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+    import { auth } from "./AppConfig.js";
+
+    function checkPageAccess() {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          window.location.replace("https://factorio-blueprint--maker.web.app/index.html");
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', checkPageAccess);
+  </script>
+
+   </body>
 </html>
