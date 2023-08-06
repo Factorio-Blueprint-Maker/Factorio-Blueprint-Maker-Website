@@ -1,6 +1,6 @@
 <div class="navbar">
     <div class="logo">
-      <a href="#"><img src="assets/factorio_blueprint_maker_logo.png"></a>
+      <a href="#"><img src="../assets/factorio_blueprint_maker_logo.png"></a>
     </div>
     
     <div class="navbar-links">
@@ -8,11 +8,35 @@
         <img src="assets/factorio_blueprint_maker_logo.png" class="menu-hamburger-logo">
         <li><a href="#">Explore</a></li>
         <li><a href="#">Donate</a></li>
-        <li id="signin-link"><a href="login.html">Login</a></li>
-        <li id="signup-link"><a href="signup.html">Signup</a></li>
-        <li id="logout-link"><a href="#">Logout</a></li>
+        <li id="signin-link"><a href="./auth/signin.html">Signin</a></li>
+        <li id="profile"><a href="#"><span class="material-symbols-outlined">account_circle</span></a></li>
       </ul>
     </div>
     <img src="./assets/menu-button.png" alt="menu" class="menu-hamburger">
   </div>
 
+  <div class="profile-dropdown">
+    <ul>
+      <li>
+        <span class="material-symbols-outlined">manage_accounts</span>
+        <a href="./account.html">My Account</a>
+      </li>
+      <li>
+        <span class="material-symbols-outlined">draw</span>
+        <a href="#">My Blueprints</a>
+      </li>
+      <li>
+        <span class="material-symbols-outlined">settings</span>
+        <a href="#">Settings</a>
+      </li>
+      <hr>
+      <li>
+        <span class="material-symbols-outlined">help</span>
+        <a href="#">Help</a>
+      </li>
+      <li>
+        <span class="material-symbols-outlined">logout</span>
+        <a href="" id="logout-button">Logout</a>
+      </li>
+    </ul>
+  </div>

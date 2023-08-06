@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 import { ref, set, get, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { app, auth, database, GoogleProvider } from "./AppConfig.js";
 
@@ -24,32 +24,51 @@ if (signinBtn) {
 
 // Signup
 
-const signupBtn = document.querySelector(".signup-button");
+const nextStepEmail = document.querySelector(".next-step-email");
+const nextStepPassword = document.querySelector(".next-step-password");
 
-if (signupBtn) {
-    signupBtn.addEventListener("click", async function() {
-        try {
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+const emailpage = document.querySelector(".email-container");
+const passwordpage = document.querySelector(".password-container");
+const verificationpage = document.querySelector(".verification-container");
 
-            // Perform your user creation logic here
-            const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredentials.user;
-            const userReference = ref(database, "/users/" + user.uid);
-            
-            await set(userReference, {
-                name: name,
-                email: user.email,
-                createdAt: serverTimestamp()
-            });
-            
-            checkAuthState();
+if (nextStepEmail) {
 
-        } catch (error) {
-            console.error("Error creating user or importing data to database: " + error);
+    nextStepEmail.addEventListener("click", () => {
+
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+
+        // check if the input fields are empty
+        if (email.trim() === "" || username.trim() === "") {
+            console.log("there's empty input fields");
         }
-    });
+        else {
+            emailpage.style.display = "none";
+            passwordpage.style.display = "block";
+
+            nextStepPassword.addEventListener("click", () => {
+                
+                const password = document.getElementById("password").value;
+                const confirm_password = document.getElementById("confirm-password").value;
+
+                if (password == confirm_password) {
+                    createUserWithEmailAndPassword(auth, email, password)
+                    .then((credential) => {
+
+                        passwordpage.style.display = "none";
+                        verificationpage.style.display = "block";    
+
+                        console.log(auth.currentUser);
+                    }).catch((error) => {
+                        console.error(error.message);
+                    })
+                    } else {
+                        console.log("hey");
+                }
+
+            })
+        }
+    })
 }
 
 // Signup with Google
@@ -86,7 +105,7 @@ if(signinWithGoogle) {
 function logoutUser() {
     signOut(auth).then(() => {
         checkAuthState();
-        window.location.replace("./login.html");
+        window.location.replace("../auth/signin.html");
     }).catch((error) => {
         console.log(error.message);
     });
@@ -101,17 +120,14 @@ function checkAuthState() {
     onAuthStateChanged(auth, (user) => {
 
         const signinLink = document.getElementById("signin-link");
-        const signupLink = document.getElementById("signup-link");
-        const logoutLink = document.getElementById("logout-link");
+        const profile = document.getElementById("profile");
 
         if (user) {
             signinLink.style.display = 'none';
-            signupLink.style.display = 'none';
-            logoutLink.style.display = 'block'; 
+            profile.style.display = 'block'; 
         } else {
             signinLink.style.display = 'block';
-            signupLink.style.display = 'block';
-            logoutLink.style.display = 'none';
+            profile.style.display = 'none';
         }
     });
 }

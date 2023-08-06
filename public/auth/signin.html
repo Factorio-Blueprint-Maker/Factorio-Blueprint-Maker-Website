@@ -1,6 +1,6 @@
 <html>
   <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poiret+One&family=Rock+Salt&display=swap" rel="stylesheet">
@@ -28,26 +28,26 @@
             <hr><h4>or</h4><hr>
           </div>
           <button class="signinWithGoogle">
-            <img src="assets/google_logo.png">
-            <p>Sign in with Google</p>
+            <img src="../assets/google_logo.png">
+            <p>Continue with Google</p>
           </button>
           <button class="signinWithSteam">
-            <img src="assets/steam_logo.png">
-            <p>Sign in with Steam</p>
+            <img src="../assets/steam_logo.png">
+            <p>Continue with Steam</p>
           </button>
 
-          <a href="signup.html" class="link-notmember">Not a member? Sign Up</a>
+          <a href="signup.html" class="link-notmember">Register with email</a>
         </div>
     </div>
   </div>
 
-  <script src="ui.js" type="module"></script>
-  <script src="auth.js" type="module"></script>
+  <script src="../scripts/ui.js" type="module"></script>
+  <script src="../scripts/auth.js" type="module"></script>
 
   <script type="module">
 
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-    import { auth } from "./AppConfig.js";
+    import { auth } from "../scripts/AppConfig.js";
 
     function checkPageAccess() {
       onAuthStateChanged(auth, (user) => {
