@@ -15,62 +15,24 @@
         <div class="email-container">
           <div class="input-form">
             <h1>Register</h1>
-            <h2>Email and Username</h2>
+            <h2>Email and Password</h2>
             <div class="test">
-              <label>Username</label>
-              <input type="text" id="username" placeholder="Enter your Username">
               <label>Email</label>
               <input type="text" id="email" placeholder="Enter your Email">
-              <button class="next-step-email">Next</button>
+              <label>Password</label>
+              <input type="password" id="password" placeholder="Enter your Password">
+              <button class="signup-button">Signup</button>
             </div>
-            <a href="signup.html" class="link-notmember">Already member? Signin</a>
+            <a href="sigin.html" class="link-alreadymember">Already member? Signin</a>
           </div>
       </div>
-      <div class="password-container">
-        <div class="input-form">
-          <h1>Register</h1>
-          <h2>Password</h2>
-          <div class="test">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="Enter your Password">
-            <label>Confirm Password</label>
-            <input type="password" id="confirm-password" placeholder="Confirm your Password">
-            <button class="next-step-password">Next</button>
-          </div>
-          <a href="signup.html" class="link-notmember">Already member? Signin</a>
-        </div>
-    </div>
-    <div class="verification-container">
-        <div class="input-form">
-          <img src="../assets/email.png">
-          <h1>Verify your Email</h1>
-          <h2>Check your email</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna 
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </p>
-          <button class="resend-email">Resend Email</button>
-          </div>
-          <a href="signup.html" class="link-notmember">Already member? Signin</a>
-        </div>
-    </div>
+
   
     <script src="../scripts/ui.js" type="module"></script>
     <script src="../scripts/auth.js" type="module"></script>
   
     <script type="module">
   
-      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-      import { auth } from "../scripts/AppConfig.js";
-  
-      function checkPageAccess() {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            window.location.replace("https://factorio-blueprint--maker.web.app/index.html");
-          }
-        });
-      }
-  
-      document.addEventListener('DOMContentLoaded', checkPageAccess);
     </script>
   </body>
 </html>
