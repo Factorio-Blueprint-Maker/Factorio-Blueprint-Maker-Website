@@ -3,25 +3,6 @@ import { ref, set, get, serverTimestamp } from "https://www.gstatic.com/firebase
 import { app, auth, database, GoogleProvider } from "./AppConfig.js";
 
 
-// Login
-const signinBtn = document.querySelector(".signin-button");
-
-if (signinBtn) {
-    signinBtn.addEventListener("click", function() {
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-
-            checkAuthState();
-
-        }).catch((error) => {
-            console.log(error.message);
-        });
-    });    
-}
-
 
 // Signup with Google
 const signinWithGoogle = document.querySelector(".signinWithGoogle");
@@ -112,38 +93,69 @@ const signupBtn = document.querySelector(".signup-button");
 
 if (signupBtn) {
   signupBtn.addEventListener("click", () => {
-    signupUser();
-  });
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signupUser(email, password)
+  })
 }
 
 async function waitForEmailVerification(user) {
+    if (!user.emailVerified) {
+      console.log("please verify your account")
+    }
     while (!user.emailVerified) {
       await user.reload();
-      await new Promise((resolve) => setTimeout(resolve, 5000)); 
+      await new Promise((resolve) => setTimeout(resolve, 3000)); 
     }
 }
   
-async function signupUser() {
+async function signupUser(email, password) {
     try {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-  
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const credential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = credential.user;
   
       // Sending email verification for the newly created user.
       await sendEmailVerification(user);
-  
-      console.log("Email verification sent successfully!");
-  
+    
       // Wait until the email is verified
       await waitForEmailVerification(user);
   
+      // Check if the user got signed in
       await checkAuthState();
 
-      console.log("Successfull Signup!!");
-
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   }
+
+  
+// Login
+const signinBtn = document.querySelector(".signin-button");
+
+if (signinBtn) {
+    signinBtn.addEventListener("click", () => {
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signinUser(email, password)
+    })
+}
+
+
+async function signinUser(email, password) {
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password)
+    const user = credential.user
+
+    await waitForEmailVerification(user)
+
+    if (user.emailVerified) {
+      checkAuthState()
+    } 
+  } catch (error) {
+    console.error(error);
+  }
+}
