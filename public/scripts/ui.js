@@ -1,4 +1,4 @@
-import { logoutUser } from "./auth.js";
+import { logoutUser, checkAuthState } from "./auth.js";
 
 
 // Function to fetch the header content and display it
@@ -26,9 +26,10 @@ function fetchAndDisplayHeader() {
 
         const logoutBtn = document.getElementById("logout-button");
         logoutBtn.addEventListener("click", function() {
-            console.log("test");
             logoutUser();
         });
+
+        checkAuthState()
 
         // JavaScript code to handle the dropdown
         const profileBtn = document.getElementById("profile");
@@ -67,10 +68,7 @@ function fetchAndDisplayHeader() {
             if (!hoveringProfile) {
                 profileDropdown.style.display = "none";
             }
-}
-
-
-
+  }
       })
       .catch((error) => {
         console.error('Error fetching the header:', error);

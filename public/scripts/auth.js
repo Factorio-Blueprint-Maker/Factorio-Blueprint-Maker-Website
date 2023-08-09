@@ -10,46 +10,35 @@ import { ref, set, get, serverTimestamp } from "https://www.gstatic.com/firebase
 import { app, auth, database, GoogleProvider } from "./AppConfig.js";
 
 
+// Assuming you have initialized Firebase and have access to the 'auth' object
 
-document.addEventListener('DOMContentLoaded', () => {
-    checkAuthState(); 
-});
-  
-  async function checkAuthState() {
-    await onAuthStateChanged(auth, (user) => {
-      const signinLink = document.getElementById("signin-link");
-      const profile = document.getElementById("profile");
-  
-      if (!user) {
+// Function to update the UI based on the user's authentication state
+function updateUI(user) {
+    const signinLink = document.getElementById("signin-link");
+    const profile = document.getElementById("profile");
+
+    if (!user) {
+      signinLink.style.display = "block";
+      profile.style.display = "none";
+    } else {
+      if (user.emailVerified) {
+        signinLink.style.display = "none";
+        profile.style.display = "block";
+      } else {
         signinLink.style.display = "block";
         profile.style.display = "none";
-      } else {
-        if (user.emailVerified) {
-          signinLink.style.display = "none";
-          profile.style.display = "block";
-        } else {
-          // User is signed in but not verified
-          // You can handle this case accordingly, for example, by showing a message
-          signinLink.style.display = "block";
-          profile.style.display = "none";
-        }
       }
-    });
+    }
   }
 
 
+auth.onAuthStateChanged(function(user) {
+  updateUI(user);
+});
 
-
-
-
-
-
-
-
-
-
-
-
+function checkAuthState() {
+  updateUI(auth.currentUser);
+}
 
 
 const signupBtn = document.querySelector(".signup-button");
@@ -64,6 +53,8 @@ if (signupBtn) {
   })
 }
 
+
+// checks every 3000 milliseconds if the email has been verified
 async function waitForEmailVerification(user) {
     if (!user.emailVerified) {
       console.log("please verify your account")
@@ -72,42 +63,44 @@ async function waitForEmailVerification(user) {
       await user.reload();
       await new Promise((resolve) => setTimeout(resolve, 3000)); 
     }
+    updateUI()
 }
-  
+
+// signs up the user and sends an email verification, if the email gets verified the user gets logged in
 async function signupUser(email, password) {
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       const user = credential.user;
   
+      // adding user to the realtime database
+      await addUserToDatabase(credential)
+
       // Sending email verification for the newly created user.
       await sendEmailVerification(user);
     
       // Wait until the email is verified
-      await waitForEmailVerification(user);
-  
-      // Check if the user got signed in
-      await checkAuthState();
+      await waitForEmailVerification(user)
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message)
     }
   }
 
 
 // Signup with Google
-const signinWithGoogle = document.querySelector(".signinWithGoogle");
+const signinWithGoogleBtn = document.querySelector(".signinWithGoogle")
 
-if(signinWithGoogle) {
-    signinWithGoogle.addEventListener("click", signinWithGoogle())
+if(signinWithGoogleBtn) {
+  signinWithGoogleBtn.addEventListener("click", signinWithGoogle)
 }
 
 async function signinWithGoogle() {
   try {
-    const result = await signInWithPopup(auth, GoogleProvider)
-    const user = result.user;
-    
-    checkAuthState();
+    const credential = await signInWithPopup(auth, GoogleProvider)
+    const user = credential.user
 
+    await addUserToDatabase(credential)
+    
   } catch (error) {
     console.log(error.message)
   }
@@ -134,10 +127,7 @@ async function signinUser(email, password) {
     const user = credential.user
 
     await waitForEmailVerification(user)
-
-    if (user.emailVerified) {
-      checkAuthState()
-    } 
+    
   } catch (error) {
     console.error(error);
   }
@@ -168,12 +158,30 @@ async function resetPassword(email) {
 async function logoutUser() {
   try {
     await signOut(auth)
-    await checkAuthState();
-    window.location.replace("..auth/signin.html");
-  } catch (erro) {
+
+    window.location.replace("../auth/signin.html");
+
+  } catch (error) {
     console.log(error.message)
   }
-  await signOut(auth)
 }
 
-export { logoutUser };
+export { logoutUser, checkAuthState };
+
+
+// this function adds the user credentials to the realtime database
+async function addUserToDatabase(credentials) {
+
+  const userDbReference = ref(database, "users/" + userId)
+  const user = credentials.user;
+
+  try {
+    await set(userDbReference, {
+      email:  user.email,
+      displayName:  user.displayName,
+      createdAt: serverTimestamp()
+    })
+  } catch(error) {
+    console.error(error.message);
+  }
+}
