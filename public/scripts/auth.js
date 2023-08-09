@@ -4,13 +4,16 @@ import {  signInWithEmailAndPassword,
           onAuthStateChanged, 
           signOut, 
           sendEmailVerification, 
-          sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+          sendPasswordResetEmail,
+          updateProfile,
+          EmailAuthProvider, 
+          reauthenticateWithCredential,
+          deleteUser,
+          reauthenticateWithPopup } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 
 import { ref, set, get, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { app, auth, database, GoogleProvider } from "./AppConfig.js";
 
-
-// Assuming you have initialized Firebase and have access to the 'auth' object
 
 // Function to update the UI based on the user's authentication state
 function updateUI(user) {
@@ -46,10 +49,11 @@ const signupBtn = document.querySelector(".signup-button");
 if (signupBtn) {
   signupBtn.addEventListener("click", () => {
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value
+    const email = document.getElementById("email").value
+    const password = document.getElementById("password").value
 
-    signupUser(email, password)
+    signupUser(username, email, password)
   })
 }
 
@@ -63,15 +67,20 @@ async function waitForEmailVerification(user) {
       await user.reload();
       await new Promise((resolve) => setTimeout(resolve, 3000)); 
     }
-    updateUI()
+    updateUI(auth.currentUser)
 }
 
 // signs up the user and sends an email verification, if the email gets verified the user gets logged in
-async function signupUser(email, password) {
+async function signupUser(username, email, password) {
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       const user = credential.user;
   
+      // settings the display name
+      await updateProfile(user, {
+        displayName: username
+      })
+
       // adding user to the realtime database
       await addUserToDatabase(credential)
 
@@ -97,8 +106,6 @@ if(signinWithGoogleBtn) {
 async function signinWithGoogle() {
   try {
     const credential = await signInWithPopup(auth, GoogleProvider)
-    const user = credential.user
-
     await addUserToDatabase(credential)
     
   } catch (error) {
@@ -126,10 +133,12 @@ async function signinUser(email, password) {
     const credential = await signInWithEmailAndPassword(auth, email, password)
     const user = credential.user
 
+    await sendEmailVerification(user); 
+
     await waitForEmailVerification(user)
     
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 }
 
@@ -166,14 +175,13 @@ async function logoutUser() {
   }
 }
 
-export { logoutUser, checkAuthState };
-
-
 // this function adds the user credentials to the realtime database
 async function addUserToDatabase(credentials) {
 
-  const userDbReference = ref(database, "users/" + userId)
+  console.log("hey")
+
   const user = credentials.user;
+  const userDbReference = ref(database, "users/" + user.uid)
 
   try {
     await set(userDbReference, {
@@ -185,3 +193,91 @@ async function addUserToDatabase(credentials) {
     console.error(error.message);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// this function is for reauthenticating the user for sensitive operations such as deleting accounts or changing passwords
+async function reauthenticateUser(user, maxRetries = 20) {
+  const reauthContainer = document.getElementById('reauthContainer');
+  const reauthUrl = "../reauth.html";
+
+  try {
+    if (user.providerData[0].providerId === "google.com") {
+      await reauthenticateWithPopup(user, GoogleProvider);
+    } else {
+      const response = await fetch(reauthUrl);
+      const reauthContent = await response.text();
+      reauthContainer.innerHTML = reauthContent;
+
+      const credentialsPromise = new Promise((resolve, reject) => {
+        const submitButton = document.querySelector(".reauth");
+        submitButton.addEventListener("click", () => {
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          if (email && password) {
+            resolve({ email, password });
+          } else {
+            reject(new Error("Email and password are required"));
+          }
+        });
+      });
+
+      const { email, password } = await credentialsPromise;
+      const credential = await EmailAuthProvider.credential(email, password);
+      await reauthenticateWithCredential(user, credential);
+    }
+
+    console.log("Reauth was successful!");
+  } catch (error) {
+    if (maxRetries > 0) {
+      console.log(`Reauthentication failed: ${error.message}`);
+      await reauthenticateUser(user, maxRetries - 1);
+    } else {
+      console.log("Max reauthentication retries reached. Aborting.");
+      throw error;
+    }
+  }
+}
+
+
+const deleteAccountBtn = document.getElementById("delete-account-button")
+if (deleteAccountBtn) {
+  deleteAccountBtn.addEventListener("click", deleteAccount)
+}
+
+async function deleteAccount() {
+
+  try {
+    const user = auth.currentUser
+
+    // reauthenticate the user before it gets deleted
+    await reauthenticateUser(user)
+    await deleteUser(user)
+
+    console.log("User deleted successfully!")
+
+  } catch(error) {
+    console.error(error.message)
+  }
+}
+
+
+
+export { logoutUser, checkAuthState };
