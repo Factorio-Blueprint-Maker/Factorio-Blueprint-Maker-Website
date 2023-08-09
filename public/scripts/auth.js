@@ -1,51 +1,14 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+import {  signInWithEmailAndPassword, 
+          createUserWithEmailAndPassword, 
+          signInWithPopup, 
+          onAuthStateChanged, 
+          signOut, 
+          sendEmailVerification, 
+          sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+
 import { ref, set, get, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import { app, auth, database, GoogleProvider } from "./AppConfig.js";
 
-
-
-// Signup with Google
-const signinWithGoogle = document.querySelector(".signinWithGoogle");
-
-// check if the signin with Google button is available
-if(signinWithGoogle) {
-    signinWithGoogle.addEventListener("click", async function() {
-
-        // sign in with Google Popup and store the result in the result object
-        signInWithPopup(auth, GoogleProvider).then(async (result) => {
-            const user = result.user;
-            const userReference = ref(database, "/users/" + user.uid);  // sets the database reference for the user
-            const userSnapshot = await get(userReference);  // get a snapshot of the user database
-
-            // check if the user already exists before adding it to the database
-            if (!userSnapshot.exists()) {
-                await set(userReference, {
-                    name: user.displayName,
-                    email: user.email,
-                    createdAt: serverTimestamp()
-                });
-            }
-
-            checkAuthState();
-
-        }).catch((error) => {
-            console.error(error.message);
-        });
-    });
-}
-
-
-// Logout User
-function logoutUser() {
-    signOut(auth).then(() => {
-        checkAuthState();
-        window.location.replace("../auth/signin.html");
-    }).catch((error) => {
-        console.log(error.message);
-    });
-}
-
-export { logoutUser };
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -130,7 +93,27 @@ async function signupUser(email, password) {
     }
   }
 
-  
+
+// Signup with Google
+const signinWithGoogle = document.querySelector(".signinWithGoogle");
+
+if(signinWithGoogle) {
+    signinWithGoogle.addEventListener("click", signinWithGoogle())
+}
+
+async function signinWithGoogle() {
+  try {
+    const result = await signInWithPopup(auth, GoogleProvider)
+    const user = result.user;
+    
+    checkAuthState();
+
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+
 // Login
 const signinBtn = document.querySelector(".signin-button");
 
@@ -159,3 +142,38 @@ async function signinUser(email, password) {
     console.error(error);
   }
 }
+
+
+// Reset Password
+const resetPasswordBtn = document.querySelector(".reset-password-button")
+
+if(resetPasswordBtn) {
+  resetPasswordBtn.addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    resetPassword(email);
+  })
+}
+
+async function resetPassword(email) {
+  try {
+    await sendPasswordResetEmail(auth, email)
+    console.log("Password reset email sent")
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+
+// Logout user
+async function logoutUser() {
+  try {
+    await signOut(auth)
+    await checkAuthState();
+    window.location.replace("..auth/signin.html");
+  } catch (erro) {
+    console.log(error.message)
+  }
+  await signOut(auth)
+}
+
+export { logoutUser };
