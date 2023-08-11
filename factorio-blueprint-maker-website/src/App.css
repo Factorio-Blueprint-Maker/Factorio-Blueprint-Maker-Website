@@ -1,0 +1,207 @@
+body {
+  background: rgba(0, 0, 0, 0.8);
+} 
+
+
+.navbar {
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(23, 23, 23, 0.9);
+}
+
+.navbar .logo img {
+  padding-left: 40px;
+  width: 240px;
+}
+
+.navbar .navbar-links ul {
+  padding-right: 60px;
+  list-style: none;
+  display: flex;
+}
+
+.navbar .navbar-links ul li {
+  padding: 40px 20px;
+}
+
+.navbar .navbar-links a {
+  font-family: "inter";
+  border-bottom: 1px solid transparent;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  transition: 0.5s;
+}
+
+
+.blueprint-content {
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+  width: 80%;
+  min-height: 100vh;
+}
+
+.blueprint-container ul {
+  padding: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Flexible columns that wrap */
+  width: 100%;
+  column-gap: 60px;
+  row-gap: 40px;
+}
+
+.blueprint-container li {
+  border-radius: 5px;
+  background-color: #1a1a1a;
+  list-style: none;
+  width: 100%; /* Cards take full width of the grid cell */
+  color: white;
+  font-family: "inter";
+  padding: 15px;
+  min-height: 450px;
+}
+
+a {
+  text-decoration: none;
+}
+.blueprintCard {
+  text-decoration: none;
+}
+
+.blueprint-container li img {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 10px);
+}
+
+.blueprint-container h1 {
+  font-weight: 400;
+  font-size: 25px;
+  margin: 0;
+  text-decoration: none;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.blueprint-container .blueprintCard p {
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0;
+  color: white;
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap:break-word;
+  width: 200px;
+}
+
+.blueprint-container hr {
+  border: none;
+  border-bottom: 1px solid #a5a5a5;
+}
+
+.blueprint-container .blueprintCard .delete-blueprint-button {
+  border: none;
+  background: tomato;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+
+
+.no-results {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.no-results p {
+  text-align: center;
+  font-family: "inter";
+  color: white;
+}
+
+/* Pagination Bar */ 
+
+.pagination {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.pagination button {
+  margin: 40px 4px;
+  border: none;
+  background: none;
+  font-size: 15px;
+  color: white;
+  transition: .3s;
+}
+
+.pagination button:hover {
+  color: rgb(194, 194, 194);
+}
+
+/* Search Container */
+
+.search-container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  margin: 200px 0 100px 0;
+}
+
+.search-container input {
+  width: 700px;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  padding-left: 20px;
+}
+
+.search-container button {
+  width: 150px;
+  margin-left: 20px;
+  border: none;
+  background: #75ff52;
+  border-radius: 5px;
+}
+
+
+
+/* Signin Page */
+
+.signin-form {
+  position: absolute;
+  margin: 400px 400px;
+}
+
+
+.like-blueprint-button {
+  background: green;
+}
+
+.like-blueprint-button-liked {
+  background: red;
+}
