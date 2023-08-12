@@ -1,5 +1,5 @@
 body {
-  background: rgba(0, 0, 0, 0.8);
+  background: #4d4b4b;
 } 
 
 
@@ -42,9 +42,9 @@ body {
 .blueprint-content {
   left: 50%;
   transform: translateX(-50%);
-  position: relative;
+  position: absolute;
   width: 80%;
-  min-height: 100vh;
+  min-height: 150vh;
 }
 
 .blueprint-container ul {
@@ -60,16 +60,15 @@ body {
 }
 
 .blueprint-container li {
-  border-radius: 5px;
-  background-color: #1a1a1a;
+  background-color: rgb(64, 63, 64);
   list-style: none;
   width: 100%; /* Cards take full width of the grid cell */
   color: white;
   font-family: "inter";
   padding: 15px;
   min-height: 450px;
+  box-shadow: rgb(32, 24, 21) 3px 0px 3px -3px inset, rgb(32, 24, 21) 2px 0px 2px -2px inset, rgb(32, 24, 21) 1px 0px 1px -1px inset, rgb(143, 140, 139) 0px 3px 3px -3px inset, rgb(143, 140, 139) 0px 2px 2px -2px inset, rgb(143, 140, 139) 0px 1px 1px -1px inset, rgb(32, 24, 21) -3px 0px 3px -3px inset, rgb(32, 24, 21) -2px 0px 2px -2px inset, rgb(32, 24, 21) -2px 0px 1px -1px inset, rgb(0, 0, 0) 0px -3px 3px -3px inset, rgb(0, 0, 0) 0px -2px 2px -2px inset, rgb(0, 0, 0) 0px -1px 1px -1px inset, rgb(32, 24, 21) 0px 0px 2px 0px, rgb(32, 24, 21) 0px 0px 4px 0px;
 }
-
 a {
   text-decoration: none;
 }
@@ -78,13 +77,16 @@ a {
 }
 
 .blueprint-container li img {
+  box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px inset, rgb(0, 0, 0) 0px -2px 2px -1px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(143, 140, 139) 0px 3px 3px -3px, rgb(143, 140, 139) 0px 2px 2px -2px, rgb(143, 140, 139) 0px 1px 1px -1px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 10px);
+  width: 100%;
+
 }
 
 .blueprint-container h1 {
+  padding-left: 10px;
   font-weight: 400;
   font-size: 25px;
   margin: 0;
@@ -96,7 +98,16 @@ a {
   max-width: 200px;
 }
 
-.blueprint-container .blueprintCard p {
+.test {
+  margin-top: 10px;
+  background: rgb(36, 35, 36);
+  width: 100%;
+  box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px inset, rgb(0, 0, 0) 0px -2px 2px -1px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(143, 140, 139) 0px 3px 3px -3px, rgb(143, 140, 139) 0px 2px 2px -2px, rgb(143, 140, 139) 0px 1px 1px -1px;
+  padding-bottom: 10px;
+  min-height: 65px;
+}
+
+.blueprint-container .blueprintCard .test p {
   font-weight: 400;
   font-size: 14px;
   margin: 0;
@@ -109,6 +120,7 @@ a {
   text-overflow: ellipsis;
   overflow-wrap:break-word;
   width: 200px;
+  padding-left: 10px;
 }
 
 .blueprint-container hr {
@@ -148,12 +160,12 @@ a {
 }
 
 .pagination button {
-  margin: 40px 4px;
+  margin: 80px 4px;
   border: none;
-  background: none;
   font-size: 15px;
-  color: white;
   transition: .3s;
+  color: #FFF;
+  background: none;
 }
 
 .pagination button:hover {
@@ -173,11 +185,15 @@ a {
 
 .search-container input {
   width: 700px;
-  height: 40px;
+  height: 45px;
   border-radius: 5px;
   border: none;
   outline: none;
   padding-left: 20px;
+}
+
+.search-container input:focus {
+  outline: 1px solid rgb(182, 214, 255);
 }
 
 .search-container button {
@@ -189,7 +205,6 @@ a {
 }
 
 
-
 /* Signin Page */
 
 .signin-form {
@@ -199,9 +214,32 @@ a {
 
 
 .like-blueprint-button {
-  background: green;
+    background: none;
+    border: none;
+    color: white;
+    padding: 0;
+    margin: 0;    
+  }
+
+.likeContainer {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.like-blueprint-button-liked {
-  background: red;
+.likeContainer p {
+  color: white;
+  margin-left: 5px;
+}
+
+.likestuff {
+  display: flex;
+  align-items: center;
+}
+
+.likeContainer a {
+  color: #FFE6C0;
+  font-weight: 400;
 }

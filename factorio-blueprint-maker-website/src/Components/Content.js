@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ref, set, get, push, child, onValue } from "firebase/database";
+import { ref, set, get, onValue } from "firebase/database";
 import { Link } from 'react-router-dom'; 
 
 
@@ -8,16 +8,18 @@ import { useAuth } from "../Context/authContext.js"
 
 // import the styling
 import "../App.css";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 
 const Content = (props) => {
 
-    const [blueprintTitle, setBlueprintTitle] = useState("");
-    const [blueprintDescription, setBlueprintDescription] = useState("");
     const [blueprint, setBlueprint] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(20); 
+    const [itemsPerPage] = useState(10); 
+    const [usernames, setUsernames] = useState({}); // Add this state
 
     const { currentUser } = useAuth();
 
@@ -48,53 +50,13 @@ const Content = (props) => {
         };
     }, []);
 
-
-    // this function upload the blueprint to the database
-    const uploadBlueprint = () => {
-
-        const newList = blueprint.concat({
-
-            blueprintTitle: blueprintTitle,
-            blueprintDescription: blueprintDescription,
-            id: blueprint.length === 0 ? 1 : blueprint[blueprint.length - 1].id + 1
-
-        });
-
-        setBlueprint(newList);
-
-        // database reference to the blueprints
-        const blueprintRef = ref(database, "blueprints/");
-
-        // push the data to retrive a unique key for each blueprint
-        const uniqueKey = push(blueprintRef).key;
-
-        // create a blueprint object that will be imported into the database
-        const blueprintObject = {
-            blueprintTitle: blueprintTitle,
-            blueprintDescription: blueprintDescription,
-            likes: []
-        };
-
-        // fetch the data to the database
-        set(child(blueprintRef, uniqueKey), blueprintObject);
-    }
-
-    // this function handles deleting blueprints from both the database and the explorer
-    const deleteBlueprint = (id) => {
-
-        // filter the explorer list by which items are available
-        setBlueprint(blueprint.filter((item) => item.id !== id));
-
-        // blueprint reference to the database
-        const blueprintRef = ref(database, "blueprints/" + id);
-        set(blueprintRef, null);
-    }
-
+    
     const handleSearch = (value) => {
         setSearchInput(value);
         setCurrentPage(1);
     }
 
+    
     const indexOfLastBlueprint = currentPage * itemsPerPage;
     const indexOfFirstBlueprint = indexOfLastBlueprint - itemsPerPage;
 
@@ -119,6 +81,7 @@ const Content = (props) => {
         };
 
 
+        // This function handles the like system
         const handleLikeChange = async (blueprintId) => {        
             if (currentUser) {
                 const likeRef = ref(database, `blueprints/${blueprintId}/likes/${currentUser.uid}`);
@@ -127,103 +90,102 @@ const Content = (props) => {
                 const snapshot = await get(likeRef);
     
                 if (snapshot.exists()) {
-                    // User has already liked, you can implement an "unlike" functionality here
-                    console.log("User already liked this blueprint.");
-                    // Remove the like
                     set(likeRef, null);
                 } else {
-                    // User hasn't liked, you can implement a "like" functionality here
-                    console.log("User liked this blueprint.");
-                    // Set the like
                     set(likeRef, true);
                 }
             }
         };
 
-
-
-
-
-
-
-
-
+        const getUsernameFromId = async (userId) => {
+            const userRef = ref(database, `users/${userId}`);
+        
+            try {
+                const snapshot = await get(userRef);
+        
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    const userName = userData.userName;
+                    return userName; // Return userName
+                } else {
+                    console.log("User data does not exist");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                throw error; // Rethrow the error to handle it later
+            }
+        };
+        
+        useEffect(() => {
+            currentBlueprints.forEach(item => {
+                getUsernameFromId(item.userId)
+                    .then(userName => {
+                        setUsernames(prevUsernames => ({
+                            ...prevUsernames,
+                            [item.userId]: userName
+                        }));
+                    })
+                    .catch(error => {
+                        console.error("Error fetching user data:", error);
+                    });
+            });
+        }, [currentBlueprints]);
 
     return (
         <div className="blueprint-content">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-
-            <div className="add-blueprint-container">
-                <input
-                    type="text"
-                    id="blueprint-title"
-                    placeholder="Enter the blueprint title"
-                    value={blueprintTitle}
-                    onChange={(e) => setBlueprintTitle(e.target.value)}
-                />
-                <input
-                    type="text"
-                    id="blueprint-description"
-                    placeholder="Enter the blueprint description"
-                    value={blueprintDescription}
-                    onChange={(e) => setBlueprintDescription(e.target.value)}
-                />
-                <button type="button" onClick={uploadBlueprint}>Upload</button>
-            </div>
-
+            
+            {/* This container contains the jsx part of the search input*/}
             <div className="search-container">
-                <input
-                    type="text"
-                    id="search-input"
-                    placeholder="Search for blueprints"
-                    value={searchInput}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
+                <input type="text" id="search-input" placeholder="Search for blueprints" value={searchInput} onChange={(e) => handleSearch(e.target.value)}/>
                 <button type="button">Search</button>
             </div>
 
+
+            {/* Check if there are any blueprints */}
             {currentBlueprints.length > 0 ? (
                 <>
                 <div className="blueprint-container">
+
+                <hr />
                 <ul>
-                    {currentBlueprints.map((item) => (          
-                                <li className="blueprintCard">   
+                    {currentBlueprints.map((item) => ( 
+
+                        <li className="blueprintCard" key={item.id}>   
+
+                                {/* Create an dynamic link to the blueprint page */}
                                 <Link to={`/explore/blueprint/${item.id}`} key={item.id}>
-                        
                                     <img src="https://autosaved.org/img/oil2.762ee113.jpg" alt="Blueprint" />
+                                    <div className="test">
+
                                     <h1>{item.blueprintTitle}</h1>
                                     <p>{item.blueprintDescription}</p>
 
+                         </div>
                                 </Link>
 
-                            <hr />
-                            <button
-                                className="delete-blueprint-button"
-                                onClick={() => deleteBlueprint(item.id)}
-                            >
-                                Delete Blueprint
-                            </button>
-                            {currentUser && (
-                                <button className={` ${item.likes && item.likes[currentUser?.uid] ? 'like-blueprint-button-liked' : 'like-blueprint-button'}`}
-                                onClick={() => handleLikeChange(item.id)}>Like</button>
-                            )}
 
-                            <p>Likes: {item.likes ? Object.keys(item.likes).length : 0}</p>
+                            <div className="likeContainer">
+                            <p>Created By: <a href="./">{usernames[item.userId]}</a></p>
+                            <div className="likestuff">
+                                {currentUser && (
+                                    <button className="like-blueprint-button"
+                                    onClick={() => handleLikeChange(item.id)}>{item.likes && item.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>}</button>
+                                )}
+                                <p>{item.likes ? Object.keys(item.likes).length : 0} Likes</p>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>
                 </div>
+
                 <div className="pagination">
-                {Array.from({ length: Math.ceil(blueprint.length / itemsPerPage) }, (_, index) => (
-                    <button key={index} onClick={() => handlePageChange(index + 1)}>
-                        {index+1}
-                    </button>
-                ))}
+                    {Array.from({ length: Math.ceil(blueprint.length / itemsPerPage) }, (_, index) => (
+                            <button key={index} onClick={() => handlePageChange(index)}>
+                                {index + 1}
+                            </button>
+                    ))}
                 </div>
                 </>
             )    

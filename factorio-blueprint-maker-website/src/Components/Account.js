@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../Context/authContext.js';
+import CreateBlueprint from './CreateBlueprint.js';
 
 // import the styling
 import "../App.css"
@@ -19,9 +20,12 @@ const Account = () => {
     }
 
     return (
-        <div class="signin-form">
-            <button type="button" onClick={handleSignout}>Signout</button>
-        </div>
+        <>
+            <div className="signin-form">
+                <button type="button" onClick={handleSignout}>Signout</button><br/><br/>
+                <CreateBlueprint/>
+            </div>
+        </>
     );
 }
 
