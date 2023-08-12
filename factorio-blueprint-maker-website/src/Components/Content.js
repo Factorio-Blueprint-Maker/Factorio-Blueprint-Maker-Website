@@ -198,7 +198,7 @@ const Content = (props) => {
                                     <img src="https://autosaved.org/img/oil2.762ee113.jpg" alt="Blueprint" />
                                     <h1>{item.blueprintTitle}</h1>
                                     <p>{item.blueprintDescription}</p>
-                                    
+
                                 </Link>
 
                             <hr />
@@ -208,9 +208,11 @@ const Content = (props) => {
                             >
                                 Delete Blueprint
                             </button>
-                            <button className={` ${item.likes && item.likes[currentUser?.uid] ? 'like-blueprint-button-liked' : 'like-blueprint-button'}`}
-                                    onClick={() => handleLikeChange(item.id)}
-                                        >Like</button>
+                            {currentUser && (
+                                <button className={` ${item.likes && item.likes[currentUser?.uid] ? 'like-blueprint-button-liked' : 'like-blueprint-button'}`}
+                                onClick={() => handleLikeChange(item.id)}>Like</button>
+                            )}
+
                             <p>Likes: {item.likes ? Object.keys(item.likes).length : 0}</p>
                         </li>
                     ))}
