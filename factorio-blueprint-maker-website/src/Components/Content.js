@@ -10,6 +10,7 @@ import { useAuth } from "../Context/authContext.js"
 import "../App.css";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 
@@ -18,10 +19,18 @@ const Content = (props) => {
     const [blueprint, setBlueprint] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10); 
+    const [itemsPerPage] = useState(20); 
     const [usernames, setUsernames] = useState({}); // Add this state
+    const [sortOption, setSortOption] = useState('default');
 
     const { currentUser } = useAuth();
+
+    const sortingOptions = [
+        { value: 'default', label: 'Default' },
+        { value: 'topRated', label: 'Top Rated' },
+        { value: 'byDate', label: 'Newest'}
+        // Add more sorting options as needed
+      ];
 
     useEffect(() => {
 
@@ -55,21 +64,41 @@ const Content = (props) => {
         setSearchInput(value);
         setCurrentPage(1);
     }
-
+    const getUsernameFromId = async (userId) => {
+        const userRef = ref(database, `users/${userId}`);
+    
+        try {
+            const snapshot = await get(userRef);
+    
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                const userName = userData.userName;
+                return userName; // Return userName
+            } else {
+                console.log("User data does not exist");
+                return null;
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            throw error; // Rethrow the error to handle it later
+        }
+    };
     
     const indexOfLastBlueprint = currentPage * itemsPerPage;
     const indexOfFirstBlueprint = indexOfLastBlueprint - itemsPerPage;
 
     const currentBlueprints = searchInput
-        ? blueprint.filter((item) =>  
-
-            // filter the blueprints by checking if the search input is included in the blueprint object
-            item.blueprintTitle.toLowerCase().includes(searchInput.toLowerCase()) ||
-            item.blueprintDescription.toLowerCase().includes(searchInput.toLowerCase())
-
-          ).slice(indexOfFirstBlueprint, indexOfLastBlueprint)
-
-        : blueprint.slice(indexOfFirstBlueprint, indexOfLastBlueprint);
+    ? blueprint.filter((item) => {
+        const lowerCaseSearchInput = searchInput.toLowerCase();
+        const lowerCaseUserName = usernames[item.userId]?.toLowerCase() || "";
+  
+        return (
+          item.blueprintTitle.toLowerCase().includes(lowerCaseSearchInput) ||
+          item.blueprintDescription.toLowerCase().includes(lowerCaseSearchInput) ||
+          lowerCaseUserName.includes(lowerCaseSearchInput)
+        );
+      }).slice(indexOfFirstBlueprint, indexOfLastBlueprint)
+    : blueprint.slice(indexOfFirstBlueprint, indexOfLastBlueprint);
 
         const handlePageChange = (pageNumber) => {
 
@@ -97,25 +126,31 @@ const Content = (props) => {
             }
         };
 
-        const getUsernameFromId = async (userId) => {
-            const userRef = ref(database, `users/${userId}`);
         
-            try {
-                const snapshot = await get(userRef);
+
+        const sortByTopRated = (blueprints) => {
+            return blueprints.slice().sort((a, b) => {
+              const likesA = a.likes ? Object.keys(a.likes).length : 0;
+              const likesB = b.likes ? Object.keys(b.likes).length : 0;
+              return likesB - likesA;
+            });
+          };
         
-                if (snapshot.exists()) {
-                    const userData = snapshot.val();
-                    const userName = userData.userName;
-                    return userName; // Return userName
-                } else {
-                    console.log("User data does not exist");
-                    return null;
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                throw error; // Rethrow the error to handle it later
-            }
-        };
+          const sortByDate = (blueprints) => {
+            return blueprints.slice().sort((a, b) => {
+              const dateB = new Date(a.createdAt);
+              const dateA = new Date(b.createdAt);
+              return dateA - dateB;
+            });
+          };
+
+        const sortedBlueprints = sortOption === 'topRated' ? sortByTopRated(currentBlueprints) : sortOption === "byDate" ? sortByDate(currentBlueprints) : currentBlueprints;
+
+        const handleSortOptionChange = (optionValue) => {
+            setSortOption(optionValue);
+            console.log(`Sorting by: ${optionValue}`);
+            // Implement your sorting logic here
+          };
         
         useEffect(() => {
             currentBlueprints.forEach(item => {
@@ -136,20 +171,37 @@ const Content = (props) => {
         <div className="blueprint-content">
             
             {/* This container contains the jsx part of the search input*/}
+
             <div className="search-container">
                 <input type="text" id="search-input" placeholder="Search for blueprints" value={searchInput} onChange={(e) => handleSearch(e.target.value)}/>
                 <button type="button">Search</button>
             </div>
 
-
             {/* Check if there are any blueprints */}
-            {currentBlueprints.length > 0 ? (
+            {sortedBlueprints.length > 0 ? (
                 <>
                 <div className="blueprint-container">
+                <div className="sort-container">
+                    <p className="result-text">{sortedBlueprints.length} results found</p>
+
+                    <div className="sorting-button">
+                        <label>Sort By :</label>
+                        <select
+                        className="sort-select"
+                        value={sortOption}
+                        onChange={(e) => handleSortOptionChange(e.target.value)}
+                        >      {sortingOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}                      
+                        </select>
+                    </div>
+                </div>
 
                 <hr />
                 <ul>
-                    {currentBlueprints.map((item) => ( 
+                    {sortedBlueprints.map((item) => ( 
 
                         <li className="blueprintCard" key={item.id}>   
 
@@ -182,7 +234,7 @@ const Content = (props) => {
 
                 <div className="pagination">
                     {Array.from({ length: Math.ceil(blueprint.length / itemsPerPage) }, (_, index) => (
-                            <button key={index} onClick={() => handlePageChange(index)}>
+                            <button key={index} onClick={() => handlePageChange(index + 1)}>
                                 {index + 1}
                             </button>
                     ))}
