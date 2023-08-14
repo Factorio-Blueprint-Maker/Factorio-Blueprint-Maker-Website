@@ -1,0 +1,11 @@
+.blueprintListContainer {
+    padding: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Flexible columns that wrap */
+    column-gap: 30px;
+    row-gap: 30px;
+}

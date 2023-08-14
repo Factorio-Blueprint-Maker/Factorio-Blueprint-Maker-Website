@@ -50,92 +50,9 @@ body {
 }
 
 
-.blueprint-container ul {
-  padding: 0;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Flexible columns that wrap */
-  column-gap: 60px;
-  row-gap: 40px;
-}
 
-.blueprint-container li {
-  background-color: rgb(64, 63, 64);
-  list-style: none;
-  width: 100%; /* Cards take full width of the grid cell */
-  color: white;
-  font-family: "inter";
-  padding: 15px;
-  min-height: 450px;
-  box-shadow: rgb(32, 24, 21) 3px 0px 3px -3px inset, rgb(32, 24, 21) 2px 0px 2px -2px inset, rgb(32, 24, 21) 1px 0px 1px -1px inset, rgb(143, 140, 139) 0px 3px 3px -3px inset, rgb(143, 140, 139) 0px 2px 2px -2px inset, rgb(143, 140, 139) 0px 1px 1px -1px inset, rgb(32, 24, 21) -3px 0px 3px -3px inset, rgb(32, 24, 21) -2px 0px 2px -2px inset, rgb(32, 24, 21) -2px 0px 1px -1px inset, rgb(0, 0, 0) 0px -3px 3px -3px inset, rgb(0, 0, 0) 0px -2px 2px -2px inset, rgb(0, 0, 0) 0px -1px 1px -1px inset, rgb(32, 24, 21) 0px 0px 2px 0px, rgb(32, 24, 21) 0px 0px 4px 0px;
-}
-a {
-  text-decoration: none;
-}
-.blueprintCard {
-  text-decoration: none;
-}
 
-.blueprint-container li img {
-  box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px inset, rgb(0, 0, 0) 0px -2px 2px -1px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(143, 140, 139) 0px 3px 3px -3px, rgb(143, 140, 139) 0px 2px 2px -2px, rgb(143, 140, 139) 0px 1px 1px -1px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
 
-}
-
-.blueprint-container h1 {
-  padding-left: 10px;
-  font-weight: 400;
-  font-size: 25px;
-  margin: 0;
-  text-decoration: none;
-  color: white;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 200px;
-}
-
-.test {
-  margin-top: 10px;
-  background: rgb(36, 35, 36);
-  width: 100%;
-  box-shadow: rgb(0, 0, 0) 0px 0px 3px 0px inset, rgb(0, 0, 0) 0px -2px 2px -1px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) -2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(40, 34, 31) 2px 0px 2px -2px, rgb(143, 140, 139) 0px 3px 3px -3px, rgb(143, 140, 139) 0px 2px 2px -2px, rgb(143, 140, 139) 0px 1px 1px -1px;
-  padding-bottom: 10px;
-  min-height: 65px;
-}
-
-.blueprint-container .blueprintCard .test p {
-  font-weight: 400;
-  font-size: 14px;
-  margin: 0;
-  color: white;
-  text-decoration: none;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limit to 3 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  overflow-wrap:break-word;
-  width: 200px;
-  padding-left: 10px;
-}
-
-.blueprint-container hr {
-  border: none;
-  border-bottom: 1px solid #a5a5a5;
-}
-
-.blueprint-container .blueprintCard .delete-blueprint-button {
-  border: none;
-  background: tomato;
-  padding: 8px 10px;
-  border-radius: 5px;
-}
 
 
 
