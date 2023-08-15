@@ -10,13 +10,14 @@ const CreateBlueprint = () => {
 
     const [blueprintTitle, setBlueprintTitle] = useState("");
     const [blueprintDescription, setBlueprintDescription] = useState("");
-
+    const [blueprintString, setBlueprintString] = useState("");
     
     const handleCreateBlueprint = () => {
 
         const blueprintData = {
             blueprintTitle: blueprintTitle,
             blueprintDescription: blueprintDescription,
+            blueprintString: blueprintString,
             userId: currentUser.uid,
             createdAt: serverTimestamp(),
         }
@@ -27,9 +28,11 @@ const CreateBlueprint = () => {
 
     return (
         <>
-            <input type="text" className="blueprintTitleField" placeholder="Blueprint Title" onChange={(e) => setBlueprintTitle(e.target.value)} />
+            <input type="text" placeholder="Blueprint Title" onChange={(e) => setBlueprintTitle(e.target.value)} />
             
-            <input type="text" className="blueprintDescriptionField" placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} />
+            <input type="text" placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} />
+
+            <input type="text" placeholder="Blueprint String" onChange={(e) => setBlueprintString(e.target.value)} />
 
             <button type="button" onClick={handleCreateBlueprint}>Create Blueprint</button>
         </>
