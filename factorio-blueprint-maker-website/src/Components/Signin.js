@@ -51,7 +51,7 @@ const Signin = () => {
 
                     <input type="text" className="" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
                     <input type="password" className="" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} /><br />
-                    <button type="button" onClick={handleSigninUser} className={styles.signInBtn}>Signin</button><br />
+                    <button type="button" onClick={handleSigninUser} className={styles.signInBtn}>Sign In</button><br />
                     <a href="/" className={styles.forgotPasswordLink}>Forgot your password?</a>
 
 

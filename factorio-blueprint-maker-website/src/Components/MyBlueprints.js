@@ -3,7 +3,7 @@ import { useAuth } from "../Context/authContext.js"
 import { onValue, ref, remove, update } from "firebase/database";
 import { database } from "../firebase";
 import MyBlueprintList from "./MyBlueprintList";
-import "../App.css"
+
 
 const MyBlueprints = (props) => {
 

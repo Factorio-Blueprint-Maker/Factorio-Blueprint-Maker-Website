@@ -116,13 +116,13 @@ const Content = (props) => {
                 blueprint.blueprintTitle.toLowerCase().includes(searchInput.toLowerCase()) ||
                 blueprint.blueprintDescription.toLowerCase().includes(searchInput.toLowerCase()) ||
                 (usernames[index] && usernames[index].toLowerCase().includes(searchInput.toLowerCase())) 
-            );
+            ).filter((blueprint) => blueprint.publish === true);
 
             // set the search result before proceeding to pagination
             setSearchResult(filteredBlueprints.length);
 
             // split the blueprints into different pages
-            const currentBlueprints = filteredBlueprints.slice(indexOfFirstBlueprint, indexOfLastBlueprint).filter((blueprint) => blueprint.publish === true);
+            const currentBlueprints = filteredBlueprints.slice(indexOfFirstBlueprint, indexOfLastBlueprint);
 
             // store the currentBlueprints list
             setCurrentBlueprints(currentBlueprints); 

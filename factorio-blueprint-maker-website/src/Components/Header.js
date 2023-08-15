@@ -51,7 +51,7 @@ const Header = () => {
                         {currentUser ? (
                             <li key="signout" ><a className={styles.accountIcon} onClick={toggleDropdown}><AccountCircleIcon  sx={{ fontSize: 30 }}/></a></li>
                         ) : (
-                            <li key="signin"><a href="/signin">Signin</a></li>
+                            <li key="signin"><a href="/signin">Sign In</a></li>
                         )}
                     </ul>
                 </div>
@@ -64,7 +64,7 @@ const Header = () => {
                 <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/../my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
                 <li key="settingsPage"><SettingsIcon/><a href="./" onClick={closeDropdown}>Settings</a></li>
                 <li key="helpPage"><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
-                <li key="logoutPage"><LogoutIcon/><a onClick={handleSignout}>Signout</a></li>
+                <li key="logoutPage"><LogoutIcon/><a href="./" onClick={handleSignout}>Sign Out</a></li>
             </ul>
                )}
             </div>

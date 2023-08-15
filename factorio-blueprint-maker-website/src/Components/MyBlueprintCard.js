@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from '../Styles/MyBlueprintCard.module.scss';
-import { ref, remove } from 'firebase/database';
-import { database } from '../firebase';
+
 
 function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprint}) {
 
