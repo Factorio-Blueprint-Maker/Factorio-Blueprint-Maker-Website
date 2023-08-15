@@ -24,15 +24,69 @@
   
 .navbarLinks ul li {
     padding: 40px 20px;
+    display: flex;
+    align-items: center;
   }
   
 .navbarLinks a {
+    display: flex;
+    align-items: center;
     font-family: "inter";
     border-bottom: 1px solid transparent;
     font-size: 16px;
     text-decoration: none;
     color: white;
     transition: 0.5s;
-  }
-  
-  
+}
+
+.test {
+  position: fixed;
+  width: 100%;
+}
+
+.accountDropdown {
+  position: relative;
+  margin: 100px 10px 0 auto;
+  width: 150px;
+  background-color: rgb(65, 65, 65);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "inter";
+  box-shadow: rgb(32, 24, 21) 3px 0px 3px -3px inset, rgb(32, 24, 21) 2px 0px 2px -2px inset, rgb(32, 24, 21) 1px 0px 1px -1px inset, rgb(32, 24, 21) -3px 0px 3px -3px inset, rgb(32, 24, 21) -2px 0px 2px -2px inset, rgb(32, 24, 21) -2px 0px 1px -1px inset, rgb(0, 0, 0) 0px -3px 3px -3px inset, rgb(0, 0, 0) 0px -2px 2px -2px inset, rgb(0, 0, 0) 0px -1px 1px -1px inset, rgb(32, 24, 21) 0px 0px 2px 0px, rgb(32, 24, 21) 0px 0px 4px 0px;
+  padding: 10px;
+}
+
+.accountDropdown li {
+  display: flex;
+  list-style: none;
+  color: white;
+  font-weight: 300;
+  align-items: center;
+  padding: 5px;
+}
+
+.accountDropdown hr {
+  border-color: white;
+  width: 100%;
+}
+
+.accountDropdown a {
+  color: white;
+  text-decoration: none;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.accountIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.accountIcon:hover {
+  background-color: rgb(65, 65, 65);
+  border-radius: 200px;
+}
