@@ -23,8 +23,7 @@ const Signin = () => {
           // Listen for changes in authentication state
           const unsubscribe = onAuthStateChanged(auth, (user) => {
               if (user) {
-
-
+                
                   const databaseRef = ref(database, "users/" + user.uid);
   
                   const userData = {

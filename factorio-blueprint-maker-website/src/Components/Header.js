@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import factorioBlueprintLogo from '../assets/factorio_blueprint_maker_logo.png'; 
 import styles from '../Styles/Header.module.scss';
 import { useAuth } from "../Context/authContext.js";
-import { Navigate } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -15,6 +14,7 @@ const Header = () => {
 
     const [dropdownVisible, setDropdownVisible] = useState(false); 
     const { currentUser, signoutUser } = useAuth();
+
 
     const toggleDropdown = () => {
         if (currentUser) {
@@ -30,7 +30,10 @@ const Header = () => {
         try {
             await signoutUser();
             closeDropdown();
-            Navigate("./signin");
+
+            // redirect the user to the signin page
+            window.location.href = "./signin";
+
         } catch (error) {
             console.log(error)
         }
@@ -53,15 +56,15 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
-            <div class={styles.test}>
+            <div className={styles.test}>
             {dropdownVisible && (   
 
-            <ul class={styles.accountDropdown}>
-                <li><ManageAccountsIcon/><a href="./account" onClick={closeDropdown}>My Account</a></li>
-                <li><AppRegistrationIcon/><a href="./" onClick={closeDropdown}>My Blueprints</a></li>
-                <li><SettingsIcon/><a href="./" onClick={closeDropdown}>Settings</a></li>
-                <li><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
-                <li><LogoutIcon/><a onClick={handleSignout}>Signout</a></li>
+            <ul className={styles.accountDropdown}>
+                <li key="accountPage"><ManageAccountsIcon/><a href="/../account" onClick={closeDropdown}>My Account</a></li>
+                <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/../my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
+                <li key="settingsPage"><SettingsIcon/><a href="./" onClick={closeDropdown}>Settings</a></li>
+                <li key="helpPage"><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
+                <li key="logoutPage"><LogoutIcon/><a onClick={handleSignout}>Signout</a></li>
             </ul>
                )}
             </div>

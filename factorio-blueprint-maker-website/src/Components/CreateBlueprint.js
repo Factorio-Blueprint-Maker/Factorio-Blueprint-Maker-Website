@@ -11,13 +11,16 @@ const CreateBlueprint = () => {
     const [blueprintTitle, setBlueprintTitle] = useState("");
     const [blueprintDescription, setBlueprintDescription] = useState("");
     const [blueprintString, setBlueprintString] = useState("");
-    
+    const [blueprintPublishState, setBlueprintPublishState] = useState(false);
+
+
     const handleCreateBlueprint = () => {
 
         const blueprintData = {
             blueprintTitle: blueprintTitle,
             blueprintDescription: blueprintDescription,
             blueprintString: blueprintString,
+            publish: blueprintPublishState,
             userId: currentUser.uid,
             createdAt: serverTimestamp(),
         }
@@ -30,9 +33,11 @@ const CreateBlueprint = () => {
         <>
             <input type="text" placeholder="Blueprint Title" onChange={(e) => setBlueprintTitle(e.target.value)} />
             
-            <input type="text" placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} />
+            <input type="text" placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} /><br/>
 
-            <input type="text" placeholder="Blueprint String" onChange={(e) => setBlueprintString(e.target.value)} />
+            <input type="text" placeholder="Blueprint String" onChange={(e) => setBlueprintString(e.target.value)} /><br/>
+
+            <label>Publish<input type="checkbox" onChange={(e) => setBlueprintPublishState(e.target.checked)}/></label><br/>
 
             <button type="button" onClick={handleCreateBlueprint}>Create Blueprint</button>
         </>

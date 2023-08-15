@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, onValue } from "firebase/database";
 import { database } from "../firebase.js";
-
+import styles from '../Styles/BlueprintDetail.module.scss';
 
 export const BlueprintDetail = () => {
 
@@ -11,6 +11,7 @@ export const BlueprintDetail = () => {
 
   const [blueprintTitle, setBlueprintTitle] = useState("");
   const [blueprintDescription, setBlueprintDescription] = useState("");
+  const [blueprintString, setBlueprintString] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,7 +32,7 @@ export const BlueprintDetail = () => {
         // set the ui elements
         setBlueprintTitle(blueprintData.blueprintTitle);
         setBlueprintDescription(blueprintData.blueprintDescription);
-
+        setBlueprintString(blueprintData.blueprintString)
       } else {
         setError("Blueprint not found");
       }
@@ -58,10 +59,11 @@ export const BlueprintDetail = () => {
   }
 
   return (
-    <div>
+    <div className={styles.blueprintDetailContainer}>
       <h2>Blueprint Details</h2>
       <p>Blueprint Name: {blueprintTitle}</p>
       <p>Blueprint Description: {blueprintDescription}</p>
+      <p>Blueprint String: {blueprintString}</p>
     </div>
   );
 };

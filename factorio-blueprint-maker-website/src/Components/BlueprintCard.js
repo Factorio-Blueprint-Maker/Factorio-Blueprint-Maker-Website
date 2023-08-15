@@ -8,10 +8,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) {
 
     return (
+      
       <div className={styles.BlueprintCard}>
         <li>
+          <Link className={styles.BlueprintImage} to={`/explore/blueprint/${blueprint.id}`}>
           <img src="https://autosaved.org/img/oil2.762ee113.jpg" alt="Blueprint" />
-
+          </Link>
           <div className={styles.BlueprintTextContainer}>
 
             <h1>{blueprint.blueprintTitle}</h1>
@@ -26,7 +28,9 @@ function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) 
             <div className={styles.BlueprintLikesContainer}>
 
               <button onClick={currentUser && (() => handleLikeChange(blueprint.id))}>
-                  {blueprint.likes && blueprint.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>}            
+                {currentUser ? 
+                  (blueprint.likes && blueprint.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>)
+                : <FavoriteIcon/> }
               </button>
 
               <p>{ blueprint.likes ? Object.keys(blueprint.likes).length : 0 }</p>
