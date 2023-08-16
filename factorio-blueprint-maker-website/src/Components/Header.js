@@ -66,7 +66,7 @@ const Header = () => {
                 <li key="accountPage"><ManageAccountsIcon/><a href="/../account" onClick={closeDropdown}>My Account</a></li>
                 <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/../my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
                 <li key="myCollectionsPage"><AutoStoriesIcon/><a href="./" onClick={closeDropdown}>My Collections</a></li>
-                <li key="MyFavoritesPage"><StarIcon/><a href="./" onClick={closeDropdown}>My Favorites</a></li>
+                <li key="MyFavoritesPage"><StarIcon/><a href="./my-favorites" onClick={closeDropdown}>My Favorites</a></li>
                 <hr/>
                 <li key="helpPage"><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
                 <li key="logoutPage"><LogoutIcon/><a href="./" onClick={handleSignout}>Sign Out</a></li>

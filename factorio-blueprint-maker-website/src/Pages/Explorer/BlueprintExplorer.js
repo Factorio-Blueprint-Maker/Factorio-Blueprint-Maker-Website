@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { ref, set, get, onValue } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 
 
-import { database } from "../firebase.js";
-import { useAuth } from "../Context/authContext.js"
+import { database } from "../../firebase.js";
+import { useAuth } from "../../Context/authContext.js"
+import { useBlueprint } from '../../Context/blueprintContext.js';
 
 // import the styling
-import "../App.css";
+import "../../App.css";
 
 import BlueprintList from './BlueprintList.js';
 
 const Content = (props) => {
 
-    const [blueprints, setBlueprint] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(20); 
-    const [usernames, setUsernames] = useState({}); // Add this state
+    const [usernames, setUsernames] = useState({}); 
     const [sortOption, setSortOption] = useState('default');
     const [searchResult, setSearchResult] = useState(0);
     const [currentBlueprints, setCurrentBlueprints] = useState([]);
 
     const { currentUser } = useAuth();
+    const { blueprints } = useBlueprint();
 
     const sortingOptions = [
         { value: 'default', label: 'Default' },
@@ -44,34 +45,6 @@ const Content = (props) => {
         }
     };
 
-    useEffect(() => {
-
-        // the database reference to the blueprints objects
-        const blueprintRef = ref(database, "blueprints/");
-
-        // get data from the blueprint reference
-        const listener = onValue(blueprintRef, (snapshot) => {
-
-            const data = snapshot.val();
-
-            // check if there is any data
-            if (data) {
-                const blueprintList = Object.keys(data).map((key) => ({
-                    id: key,
-                    ...data[key]
-                }));
-
-                // import data into blueprint array
-                setBlueprint(blueprintList);
-            }
-        });
-
-        return () => {
-            listener();
-        };
-    }, []);
-
-    
     const getUsernameFromId = async (userId) => {
         const userRef = ref(database, `users/${userId}`);
     
@@ -83,7 +56,6 @@ const Content = (props) => {
                 const userName = userData.userName;
                 return userName; // Return userName
             } else {
-                console.log("User data does not exist");
                 return null;
             }
         } catch (error) {
@@ -92,7 +64,6 @@ const Content = (props) => {
         }
     }
 
-    
     /* Update the blueprint list everytime we use the search input, 
        change items per page, change current page or if the blueprints gets updated */
     useEffect(() => {

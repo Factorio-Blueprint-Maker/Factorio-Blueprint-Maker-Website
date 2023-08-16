@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from '../Styles/MyBlueprintCard.module.scss';
+import { Link } from 'react-router-dom';
+
+import styles from '../../Styles/MyBlueprintCard.module.scss';
+
 import PublishIcon from '@mui/icons-material/Publish';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Link } from 'react-router-dom';
 
 function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprint}) {
 

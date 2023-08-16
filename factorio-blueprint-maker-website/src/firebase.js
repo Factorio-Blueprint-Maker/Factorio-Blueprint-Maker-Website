@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database"
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDZHW1uGfE7K2yz-S5TQegMQBG8cXDGSt8",
   authDomain: "factorio-blueprint--maker.firebaseapp.com",
@@ -16,4 +17,4 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
-export const database = getDatabase(app)
+export const database = getDatabase(app);

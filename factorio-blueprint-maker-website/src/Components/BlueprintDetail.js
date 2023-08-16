@@ -1,55 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ref, onValue, get, set } from "firebase/database";
+import { ref, get, set } from "firebase/database";
 import { database } from "../firebase.js";
 import styles from '../Styles/BlueprintDetail.module.scss';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star'
 import { useAuth } from '../Context/authContext.js';
+import { useBlueprint } from '../Context/blueprintContext.js';
 
 export const BlueprintDetail = () => {
 
   // get the blueprintId
   const { blueprintId } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const [blueprintData, setBlueprintData] = useState({});
   const [favoriteState, setFavoriteState] = useState(false);
 
   const { currentUser } = useAuth();
+  const { getBlueprintData } = useBlueprint();
 
   const navigate = useNavigate();
 
-  // queries the blueprint data from the database
-  const getBlueprintData = () => {
-
-    // the database reference for the blueprint objects
-    const blueprintRef = ref(database, "blueprints/" + blueprintId);
-
-    // get the data at blueprintRef from the database
-    onValue(blueprintRef, (snapshot) => {
-
-      // check if there are any blueprints
-      if (snapshot.exists()) {
-
-        const blueprintData = snapshot.val();
-        setBlueprintData(blueprintData); 
-        
-      } else {
-        setError("Blueprint not found");
-      }
-
-      setLoading(false);
-      
-    }, (error) => {
-      setError("Error fetching blueprint data");
-      setLoading(false);
-    });
-  }
-
   const handleFavorite = async () => {
-    const favoriteRef = await ref(database, "users/" + currentUser?.uid + "/favorites/" + blueprintId);
+    const favoriteRef = await ref(database, "blueprints/" + blueprintId + "/favorites/" + currentUser.uid);
 
     const snapshot = await get(favoriteRef);
 
@@ -65,15 +38,20 @@ export const BlueprintDetail = () => {
 
   // call getBlueprintData on load
   useEffect(() => {
-    getBlueprintData();
+    const handleGetBlueprintData = async () => {
+        const blueprintData = await getBlueprintData(blueprintId);
+        setBlueprintData(blueprintData);
+    }
 
-    const favoriteRef = ref(database, "users/" + currentUser?.uid + "/favorites/" + blueprintId);
+    handleGetBlueprintData();
+
+    const favoriteRef = ref(database, "blueprints/" + blueprintId + "/favorites/" + currentUser.uid);
+
     get(favoriteRef).then(snapshot => {
       setFavoriteState(snapshot.exists()); 
     });
 
-
-  }, []);
+  }, [blueprintId, currentUser, getBlueprintData]);
 
   useEffect(() => {
     if (!blueprintData.publish && blueprintData.userId && blueprintData.userId !== currentUser?.uid) {
@@ -81,15 +59,6 @@ export const BlueprintDetail = () => {
     }
   }, [blueprintData, currentUser, navigate]);
   
-
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <>

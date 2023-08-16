@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { auth } from "../firebase.js";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { ref, set } from 'firebase/database';
+import { database } from '../firebase.js';
 
 const authContext = createContext();
 
@@ -12,28 +14,44 @@ export function AuthProvider({ children }) {
 
     const [currentUser, setCurrentUser] = useState({});
 
-    function signupUser(email, password) {
-        return createUserWithEmailAndPassword(auth, email, password)
+    async function signupUser(email, password, username) {
+
+        const user = await createUserWithEmailAndPassword(auth, email, password);
+
+        const userRef = ref(database, "users/" + user.user.uid);
+
+        const userObject = {
+            displayName: username,
+            email: user.user.email
+        }
+
+        await set(userRef, userObject);
     }
 
     function signinUser(email, password) {
         return signInWithEmailAndPassword(auth, email, password);
     }
 
-    function signinUserWithGoogle() {
+    async function signinUserWithGoogle() {
         const GoogleProvider = new GoogleAuthProvider();
-        return signInWithPopup(auth, GoogleProvider);
+        const user = await signInWithPopup(auth, GoogleProvider);
+        
+        const userRef = ref(database, "users/" + currentUser.uid);
+
+        const userObject = {
+            displayName: user.user.displayName,
+            email: user.user.email
+        }
+
+        await set(userRef, userObject);
+
+        return user;
     } 
 
     function signoutUser() {
         return signOut(auth);
     }
 
-    function updateUser(username) {
-        
-        return updateProfile(auth.currentUser, {displayName: username});
-    
-    }
 
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged(user => {
@@ -50,8 +68,7 @@ export function AuthProvider({ children }) {
         signupUser,
         signinUser,
         signinUserWithGoogle,
-        signoutUser,
-        updateUser
+        signoutUser
     };
 
     return (

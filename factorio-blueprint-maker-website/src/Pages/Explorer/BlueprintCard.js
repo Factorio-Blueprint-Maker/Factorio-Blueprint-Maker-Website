@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from "../Styles/BlueprintCard.module.scss";
+import styles from "../../Styles/BlueprintCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -8,7 +8,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) {
 
     return (
-      
+
       <div className={styles.BlueprintCard}>
         <li>
           <Link className={styles.BlueprintImage} to={`/explore/blueprint/${blueprint.id}`}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../Styles/BlueprintList.module.scss";
+import styles from "../../Styles/BlueprintList.module.scss";
 import BlueprintCard  from './BlueprintCard';
 
 function BlueprintList({ blueprintList, usernames, handleLikeChange, currentUser}) {
@@ -8,6 +8,7 @@ function BlueprintList({ blueprintList, usernames, handleLikeChange, currentUser
         <ul className={styles.blueprintListContainer}>
         {blueprintList.map((blueprint) => (
             <BlueprintCard
+                key = {blueprint.id}
                 blueprint={blueprint}
                 currentUser={currentUser}
                 usernames={usernames}

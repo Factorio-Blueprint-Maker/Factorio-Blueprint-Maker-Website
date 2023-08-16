@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import "../App.css";
-import { useAuth } from "../Context/authContext.js";
+import { useAuth } from "../../Context/authContext.js";
 import { ref, set } from 'firebase/database';
-import '../App.css'
-import { database } from '../firebase';
+import '../../App.css';
+import { database } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
 const Signin = () => {
 
@@ -17,27 +16,7 @@ const Signin = () => {
     const handleSignupUser = async () => {
       try {
           // Attempt to sign up the user
-          await signupUser(email, password);
-          await updateUser(username);
-
-          // Listen for changes in authentication state
-          const unsubscribe = onAuthStateChanged(auth, (user) => {
-              if (user) {
-                
-                  const databaseRef = ref(database, "users/" + user.uid);
-  
-                  const userData = {
-                      userName: user.displayName,
-                      userEmail: user.email
-                  };
-  
-                  // Set user data in the database
-                  set(databaseRef, userData);
-                  
-                  // Unsubscribe from the listener to avoid memory leaks
-                  unsubscribe();
-              }
-          });
+          await signupUser(email, password, username);
   
       } catch (error) {
           console.log(error.message);
