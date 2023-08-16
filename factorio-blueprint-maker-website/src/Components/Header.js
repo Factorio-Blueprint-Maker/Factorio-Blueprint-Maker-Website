@@ -26,6 +26,8 @@ const Header = () => {
         setDropdownVisible(false);
     };
 
+
+
     const handleSignout = async () => {
         try {
             await signoutUser();

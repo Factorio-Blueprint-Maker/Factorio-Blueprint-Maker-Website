@@ -1,6 +1,10 @@
 import React from 'react';
 import styles from '../Styles/MyBlueprintCard.module.scss';
-
+import PublishIcon from '@mui/icons-material/Publish';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Link } from 'react-router-dom';
 
 function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprint}) {
 
@@ -8,7 +12,9 @@ function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprin
     return (
       <div className={styles.BlueprintCard}>
         <li key={blueprint.id}>
-          <img src="https://autosaved.org/img/oil2.762ee113.jpg" alt="Blueprint" />
+          <Link className={styles.BlueprintImage} to={`/explore/blueprint/${blueprint.id}`}>
+            <img src="https://autosaved.org/img/oil2.762ee113.jpg" alt="Blueprint" />
+          </Link>
 
           <div className={styles.BlueprintTextContainer}>
 
@@ -18,9 +24,12 @@ function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprin
           </div>
 
           <div className={styles.BlueprintLowerContainer}>
-            <button className={styles.deleteBlueprintBtn} onClick={() => handleDeleteBlueprint(blueprint.id)}>Delete</button>
+          <p>{ blueprint.likes ? Object.keys(blueprint.likes).length : 0 } Likes</p>
+
+            <button className={styles.deleteBlueprintBtn} onClick={() => handleDeleteBlueprint(blueprint.id)}><DeleteIcon/></button>
+            <button className={styles.editBlueprintBtn}><EditIcon/></button>
             <button className={styles.publishBlueprintBtn} onClick={() => handlePublishBlueprint(blueprint.id, blueprint.publish)}>
-              {blueprint.publish ? "Unpublish" : "Publish"}
+              {blueprint.publish ? <UnpublishedIcon/> : <PublishIcon/>}
             </button>
           </div>
         </li>

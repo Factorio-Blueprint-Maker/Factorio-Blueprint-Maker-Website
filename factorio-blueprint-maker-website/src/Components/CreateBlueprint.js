@@ -33,9 +33,9 @@ const CreateBlueprint = () => {
         <>
             <input type="text" placeholder="Blueprint Title" onChange={(e) => setBlueprintTitle(e.target.value)} />
             
-            <input type="text" placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} /><br/>
+            <textarea placeholder="Blueprint Description" onChange={(e) => setBlueprintDescription(e.target.value)} /><br/>
 
-            <input type="text" placeholder="Blueprint String" onChange={(e) => setBlueprintString(e.target.value)} /><br/>
+            <textarea placeholder="Blueprint String" onChange={(e) => setBlueprintString(e.target.value)} /><br/>
 
             <label>Publish<input type="checkbox" onChange={(e) => setBlueprintPublishState(e.target.checked)}/></label><br/>
 

@@ -3,7 +3,8 @@ import { useAuth } from "../Context/authContext.js"
 import { onValue, ref, remove, update } from "firebase/database";
 import { database } from "../firebase";
 import MyBlueprintList from "./MyBlueprintList";
-
+import styles from '../Styles/MyBlueprints.module.scss'
+import ImportBlueprint from "./ImportBlueprint.js";
 
 const MyBlueprints = (props) => {
 
@@ -68,13 +69,33 @@ const MyBlueprints = (props) => {
         };
     }, [currentUser]);
 
+    const [popupState, setPopupState] = useState(false);
 
+    const handleTogglePopup = () => {
+        setPopupState(!popupState);
+
+          // Toggle body scrolling
+          if (!popupState) {
+            document.body.style.overflow = "hidden"; // Disable scrolling
+        } else {
+            document.body.style.overflow = ""; // Enable scrolling
+        }
+    }
     
     return (
         <>  
-        <div className="test"></div>
-        {currentBlueprints.length > 0 ? <MyBlueprintList blueprintList={currentBlueprints} handleDeleteBlueprint={handleDeleteBlueprint} handlePublishBlueprint={handlePublishBlueprint}/> : <p>No blueprints where found</p>}
-            
+        {popupState && <ImportBlueprint closePopup={handleTogglePopup} />}
+
+        <div className={styles.myBlueprintsContainer}>
+            <div className={styles.upperContainer}>
+                <h1>My Blueprints</h1>
+                <button onClick={handleTogglePopup}>Import Blueprint</button>
+            </div>
+            <hr/>
+            <div className={styles.myBlueprintsContent}>
+            {currentBlueprints.length > 0 ? <MyBlueprintList blueprintList={currentBlueprints} handleDeleteBlueprint={handleDeleteBlueprint} handlePublishBlueprint={handlePublishBlueprint}/> : <p>No blueprints where found ...</p>}
+        </div>
+        </div>
         </>
     );
 }

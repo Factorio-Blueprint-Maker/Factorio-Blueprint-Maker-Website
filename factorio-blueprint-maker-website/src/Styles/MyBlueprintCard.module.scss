@@ -19,6 +19,11 @@
     align-items: center;
 }
 
+.BlueprintImage {
+    display: flex;
+    justify-content: center;
+}
+
 /* Set the size and add shadow for image */
 .BlueprintCard img {
     margin-top: 15px;
@@ -71,34 +76,105 @@
     color: white;
 }
 
-.deleteBlueprintBtn {
-    margin-left: auto;
-    background-color: tomato;
-    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+.BlueprintLowerContainer button {
+    position: relative;
+    border-radius: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border: none;
     outline: none;
-    padding: 10px 20px;
+    width: 35px;
+    height: 35px;
 }
 
+.deleteBlueprintBtn {
+    margin-left: auto;
+    background-color: #FF5B5B;
+    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -8px 4px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+}
+
+.publishBlueprintBtn {
+    margin-left: 5px;
+    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -8px 4px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+    background-color: #F5F5F5;
+}
+
+.editBlueprintBtn {
+    margin-left: 5px;
+    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -8px 4px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+    background-color: #FFCF52;
+}
+
+.editBlueprintBtn:hover,
 .publishBlueprintBtn:hover,
 .deleteBlueprintBtn:hover {
     box-shadow: inset 0 0 3px 0 #000, 0 -2px 2px -1px #000, -2px 0 2px -2px #28221f, -2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 0 3px 3px -3px #8f8c8b, 0 2px 2px -2px #8f8c8b, 0 1px 1px -1px #8f8c8b;
 }   
 
+.publishBlueprintBtn::after {
+    transition: 1s;
+    content: "Upload";
+    position: absolute;
+    bottom: -30px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: rgba(240, 240, 240, 0.8); 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    font-size: 14px;
+    color: #000000; 
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.editBlueprintBtn::after {
+    transition: 1s;
+    content: "Edit";
+    position: absolute;
+    bottom: -30px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: rgba(240, 240, 240, 0.8); 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    font-size: 14px;
+    color: #000000; 
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.deleteBlueprintBtn:hover::after {
+    transition: 1s;
+    content: "Delete";
+    position: absolute;
+    bottom: -30px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: rgba(240, 240, 240, 0.8); 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    font-size: 14px;
+    color: #000000; 
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.deleteBlueprintBtn:hover::after,
+.editBlueprintBtn:hover::after,
+.publishBlueprintBtn:hover::after {
+    opacity: 1;
+}
+
+
+
+
+
+.editBlueprintBtn:active,
 .publishBlueprintBtn:active,
 .deleteBlueprintBtn:active {
     box-shadow: inset 0 0 5px 0 #000, 0 -2px 2px -1px #000, -2px 0 2px -2px #28221f, -2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 0 3px 3px -3px #8f8c8b, 0 2px 2px -2px #8f8c8b, 0 1px 1px -1px #8f8c8b;
 }
 
-
-
-
-.publishBlueprintBtn {
-    margin-left: 10px;
-    background-color: rgb(36, 127, 180);
-    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
-    border: none;
-    outline: none;
-    padding: 10px 20px;
-}
 
