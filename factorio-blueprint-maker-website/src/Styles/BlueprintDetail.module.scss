@@ -15,3 +15,38 @@
 .blueprintDetailContainer p {
     color: rgb(219, 219, 219);
 }
+
+.favoriteButton {
+    color: white;
+    border-radius: 100px;
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .4s;
+}
+
+.favoriteButton::after {
+    content: "Add to favorites";
+    position: absolute;
+    margin-left: 180px;
+    background-color: rgba(240, 240, 240, 0.8); 
+    padding: 5px 10px; 
+    width: 100px;
+    border-radius: 5px; 
+    font-size: 14px;
+    color: #000000; 
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.favoriteButton:hover {
+    background-color: rgb(65, 65, 65);
+}
+
+.favoriteButton:hover::after {
+    opacity: 1;
+}

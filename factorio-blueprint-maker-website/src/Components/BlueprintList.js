@@ -7,7 +7,6 @@ function BlueprintList({ blueprintList, usernames, handleLikeChange, currentUser
     return (
         <ul className={styles.blueprintListContainer}>
         {blueprintList.map((blueprint) => (
-
             <BlueprintCard
                 blueprint={blueprint}
                 currentUser={currentUser}

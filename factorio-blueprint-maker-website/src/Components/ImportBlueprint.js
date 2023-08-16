@@ -25,6 +25,8 @@ const ImportBlueprint = ({closePopup}) => {
             publish: blueprintPublishState,
             userId: currentUser.uid,
             createdAt: serverTimestamp(),
+            likes: [],
+            favorites: []
         }
 
         const databaseRef = await push(ref(database, "blueprints/"));

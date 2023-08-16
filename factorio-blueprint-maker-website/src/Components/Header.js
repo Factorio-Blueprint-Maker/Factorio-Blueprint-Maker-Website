@@ -6,9 +6,10 @@ import { useAuth } from "../Context/authContext.js";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import SettingsIcon from '@mui/icons-material/Settings';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
+import StarIcon from '@mui/icons-material/Star';
 
 const Header = () => {
 
@@ -64,7 +65,9 @@ const Header = () => {
             <ul className={styles.accountDropdown}>
                 <li key="accountPage"><ManageAccountsIcon/><a href="/../account" onClick={closeDropdown}>My Account</a></li>
                 <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/../my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
-                <li key="settingsPage"><SettingsIcon/><a href="./" onClick={closeDropdown}>Settings</a></li>
+                <li key="myCollectionsPage"><AutoStoriesIcon/><a href="./" onClick={closeDropdown}>My Collections</a></li>
+                <li key="MyFavoritesPage"><StarIcon/><a href="./" onClick={closeDropdown}>My Favorites</a></li>
+                <hr/>
                 <li key="helpPage"><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
                 <li key="logoutPage"><LogoutIcon/><a href="./" onClick={handleSignout}>Sign Out</a></li>
             </ul>

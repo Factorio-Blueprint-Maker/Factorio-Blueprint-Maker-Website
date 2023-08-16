@@ -21,6 +21,7 @@ const Account = () => {
     return (
         <>
             <div className="signin-form">
+                <button>Reauthenticate</button><br/>
                 <button type="button" onClick={handleSignout}>Signout</button><br/><br/>
             </div>
         </>
