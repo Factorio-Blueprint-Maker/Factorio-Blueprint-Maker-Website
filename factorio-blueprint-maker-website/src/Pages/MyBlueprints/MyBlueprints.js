@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/authContext.js"
 import { useBlueprint } from "../../Context/blueprintContext.js";
 
-import MyBlueprintList from "./MyBlueprintList.js";
 import ImportBlueprint from "./ImportBlueprint.js";
+import CardLayout from "../../Components/CardLayout.js";
+import MyBlueprintCard from "./MyBlueprintCard.js"
 
 import styles from '../../Styles/MyBlueprints.module.scss'
 
@@ -71,7 +72,19 @@ const MyBlueprints = (props) => {
             </div>
             <hr/>
             <div className={styles.myBlueprintsContent}>
-            {currentBlueprints.length > 0 ? <MyBlueprintList blueprintList={currentBlueprints} handleDeleteBlueprint={handleDeleteBlueprint} handlePublishBlueprint={handlePublishBlueprint}/> : <p>No blueprints where found ...</p>}
+                {currentBlueprints.length > 0 ? 
+                            <CardLayout>
+                                {currentBlueprints.map((blueprint) => (
+                                    <MyBlueprintCard
+                                    key={blueprint.id} 
+                                    blueprint={blueprint}
+                                    handleDeleteBlueprint={handleDeleteBlueprint}
+                                    handlePublishBlueprint={handlePublishBlueprint}
+                                />
+                                ))}
+                            </CardLayout>
+                
+                : <p>No blueprints where found ...</p>}
         </div>
         </div>
         </>

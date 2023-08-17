@@ -26,8 +26,10 @@ function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprin
           </div>
 
           <div className={styles.BlueprintLowerContainer}>
-          <p>{ blueprint.likes ? Object.keys(blueprint.likes).length : 0 } Likes</p>
-
+          <div class={styles.BlueprintStats}>
+            <p>{ blueprint.likes ? Object.keys(blueprint.likes).length : 0 } Likes</p>
+            <p>{ blueprint.favorites ? Object.keys(blueprint.favorites).length :0 } Favorites</p>
+          </div>
             <button className={styles.deleteBlueprintBtn} onClick={() => handleDeleteBlueprint(blueprint.id)}><DeleteIcon/></button>
             <button className={styles.editBlueprintBtn}><EditIcon/></button>
             <button className={styles.publishBlueprintBtn} onClick={() => handlePublishBlueprint(blueprint.id, blueprint.publish)}>

@@ -33,10 +33,11 @@ export function AuthProvider({ children }) {
     }
 
     async function signinUserWithGoogle() {
+
         const GoogleProvider = new GoogleAuthProvider();
         const user = await signInWithPopup(auth, GoogleProvider);
         
-        const userRef = ref(database, "users/" + currentUser.uid);
+        const userRef = ref(database, "users/" + user.user.uid);
 
         const userObject = {
             displayName: user.user.displayName,

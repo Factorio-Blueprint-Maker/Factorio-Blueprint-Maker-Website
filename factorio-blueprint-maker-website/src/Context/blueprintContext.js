@@ -1,7 +1,8 @@
 import react, { useState, useEffect, createContext, useContext } from 'react';
-import { ref, remove, onValue, update, set, push } from 'firebase/database';
+import { ref, remove, onValue, update, set, push, get } from 'firebase/database';
 
 import { database } from '../firebase';
+import { useAuth } from './authContext';
 
 const blueprintContext = createContext();
 
@@ -14,6 +15,7 @@ export function BlueprintProvider({ children }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [blueprints, setBlueprints] = useState([]);
 
+    const { currentUser } = useAuth();
 
     // this function handles the creation of a blueprint given the blueprint object
     const createBlueprint = async (blueprintObject) => {
@@ -66,6 +68,24 @@ export function BlueprintProvider({ children }) {
             setErrorMessage(error);
         }
     }
+
+
+    // this method handles the liking of the blueprint
+    const handleLikeChange = async (blueprintId) => {        
+        if (currentUser) {
+
+            const likeRef = ref(database, `blueprints/${blueprintId}/likes/${currentUser.uid}`);
+            
+            // Check if the user has liked this blueprint
+            const snapshot = await get(likeRef);
+
+            if (snapshot.exists()) {
+                set(likeRef, null);
+            } else {
+                set(likeRef, true);
+            }
+        }
+    };
     
 
     // download all the blueprints and store them in the blueprints list
@@ -93,7 +113,8 @@ export function BlueprintProvider({ children }) {
         deleteBlueprint,
         publishBlueprint,
         createBlueprint,
-        getBlueprintData
+        getBlueprintData,
+        handleLikeChange
     };
 
     return (

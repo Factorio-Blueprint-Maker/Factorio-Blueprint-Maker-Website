@@ -10,6 +10,8 @@ import Signup from './Pages/Authentication/Signup.js';
 import Account from './Components/Account.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.js';
 import MyBlueprints from './Pages/MyBlueprints/MyBlueprints.js'
+import MyFavoriteBlueprints from './Pages/MyFavorites/MyFavoriteBlueprints';
+import AuthRoute from './Components/AuthRoute';
 
 import { AuthProvider } from './Context/authContext.js';
 import { BlueprintProvider  } from './Context/blueprintContext';
@@ -26,13 +28,14 @@ function App() {
           <Routes>
             <Route path="explore" element={<Content />} />
             <Route path="explore/blueprint/:blueprintId" element={<BlueprintDetail />} />
-            <Route path="signin" element={<Signin />} />            
-            <Route path="signup" element={<Signup />} />
+
+            <Route path="signin" element={<AuthRoute><Signin /></AuthRoute>} />            
+            <Route path="signup" element={<AuthRoute><Signup /></AuthRoute>} />
 
             {/* Protected Routes */}
             <Route path="account" element={<ProtectedRoutes><Account /></ProtectedRoutes>} />
             <Route path="my-blueprints" element={<ProtectedRoutes><MyBlueprints /></ProtectedRoutes>} />
-
+            <Route path="my-favorites" element={<ProtectedRoutes><MyFavoriteBlueprints/></ProtectedRoutes>} />
 
             <Route path="*" element={<Navigate to="/explore" />} />
           </Routes>

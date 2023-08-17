@@ -1,38 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Removed unused import 'useRef'
 import { useAuth } from "../../Context/authContext.js";
-import { ref, set } from 'firebase/database';
-import '../../App.css';
-import { database } from '../../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase';
+import styles from "../../Styles/SignupForm.module.scss";
 
 const Signin = () => {
-
+    const { signupUser } = useAuth();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {signupUser, currentUser, updateUser } = useAuth();
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const handleSignupUser = async () => {
-      try {
-          // Attempt to sign up the user
-          await signupUser(email, password, username);
-  
-      } catch (error) {
-          console.log(error.message);
-      }
-  }
+    const handleEmailAndUsername = (e) => {
+      e.preventDefault();
+      // Update the username and email states
+      setUsername(e.target.elements.username.value);
+      setEmail(e.target.elements.email.value);
+  };
+
+  const handlePassword = (e) => {
+    e.preventDefault();
+    const enteredPassword = e.target.elements.password.value;
+    const enteredConfirmPassword = e.target.elements.confirmPassword.value;
+
+    if (enteredPassword === enteredConfirmPassword) {
+        setPassword(enteredPassword);
+        setConfirmPassword(enteredConfirmPassword);
+        signupUser(email, enteredPassword, username);
+    } else {
+        console.log("Passwords do not match");
+    }
+};
+
     return (
-      <>
-      <div className="signin-form">
-        <input type="text" className="username_input_field" placeholder="Eneter your username" onChange={(e) => setUsername(e.target.value)} />
-        <input type="text" className="email_input_field" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" className="password_input_field" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} /><br />
-        <button type="button" onClick={handleSignupUser}>Sign up</button>
-        {currentUser && currentUser.email}<br />
-        <a href="/signin">Already have an account?</a>
-      </div> 
-      </>
+        <div className={styles.bodyContainer}>
+
+            {!email || !username ? ( // Use conditional rendering with proper syntax
+               <form className={styles.form} onSubmit={handleEmailAndUsername}>
+               <h1>Signup</h1>
+               <p>Enter your email and username</p>
+               <hr />
+           
+               <label>Username</label>
+               <input
+                   type="text"
+                   name="username" // Added 'name' attribute for form element reference
+                   placeholder="Enter your username"
+                   required
+               />
+           
+               <label>Email</label>
+               <input
+                   type="text"
+                   name="email" // Added 'name' attribute for form element reference
+                   placeholder="Enter your email"
+                   required
+               />
+           
+               <button type="submit">Next</button>
+           
+               <a href="/signin">Already a member? Signin</a>
+           </form>
+
+            ) : (
+
+               
+          <form className={styles.form} onSubmit={handlePassword}>
+              <h1>Signup</h1>
+              <p>Enter your Password</p>
+              <hr />
+
+              <label>Password</label>
+              <input
+                  type="password"
+                  name="password" // Added 'name' attribute for form element reference
+                  placeholder="Enter your password"
+                  required
+              />
+
+              <label>Confirm Password</label>
+              <input
+                  type="password"
+                  name="confirmPassword" // Added 'name' attribute for form element reference
+                  placeholder="Confirm your password"
+                  required
+              />
+
+              <button type="submit">Next</button>
+
+              <a href="/signin">Already a member? Signin</a>
+          </form>
+            )}
+        </div>
     );
 }
 

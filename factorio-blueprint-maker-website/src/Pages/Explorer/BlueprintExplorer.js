@@ -9,7 +9,8 @@ import { useBlueprint } from '../../Context/blueprintContext.js';
 // import the styling
 import "../../App.css";
 
-import BlueprintList from './BlueprintList.js';
+import CardLayout from '../../Components/CardLayout.js';
+import BlueprintCard from './BlueprintCard.js';
 
 const Content = (props) => {
 
@@ -22,28 +23,13 @@ const Content = (props) => {
     const [currentBlueprints, setCurrentBlueprints] = useState([]);
 
     const { currentUser } = useAuth();
-    const { blueprints } = useBlueprint();
+    const { blueprints, handleLikeChange } = useBlueprint();
 
     const sortingOptions = [
         { value: 'default', label: 'Default' },
         { value: 'topRated', label: 'Top Rated' },
         { value: 'byDate', label: 'Newest'}
       ];
-
-    const handleLikeChange = async (blueprintId) => {        
-        if (currentUser) {
-            const likeRef = ref(database, `blueprints/${blueprintId}/likes/${currentUser.uid}`);
-            
-            // Check if the user has liked this blueprint
-            const snapshot = await get(likeRef);
-
-            if (snapshot.exists()) {
-                set(likeRef, null);
-            } else {
-                set(likeRef, true);
-            }
-        }
-    };
 
     const getUsernameFromId = async (userId) => {
         const userRef = ref(database, `users/${userId}`);
@@ -53,7 +39,7 @@ const Content = (props) => {
     
             if (snapshot.exists()) {
                 const userData = snapshot.val();
-                const userName = userData.userName;
+                const userName = userData.displayName;
                 return userName; // Return userName
             } else {
                 return null;
@@ -185,7 +171,17 @@ const Content = (props) => {
                 </div>
 
                 <hr />
-                    <BlueprintList blueprintList={sortedBlueprints} usernames={usernames} handleLikeChange={handleLikeChange} currentUser={currentUser}/>
+                <CardLayout>
+                    {sortedBlueprints.map((blueprint) => (
+                          <BlueprintCard
+                            key = {blueprint.id}
+                            blueprint={blueprint}
+                            currentUser={currentUser}
+                            usernames={usernames}
+                            handleLikeChange={handleLikeChange}
+                        />
+                    ))}
+                </CardLayout>
                 </div>
 
                 <div className="pagination">

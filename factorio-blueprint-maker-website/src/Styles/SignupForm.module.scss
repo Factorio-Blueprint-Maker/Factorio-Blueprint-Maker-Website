@@ -1,0 +1,68 @@
+.bodyContainer {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../assets/background-2.jpg");
+    width: 100%;
+    min-height: 100vh;
+}
+
+.form {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    background: rgb(35, 35, 35);
+    box-shadow: inset 3px 0 3px -3px #201815, inset 2px 0 2px -2px #201815, inset 1px 0 1px -1px #201815, inset 0 3px 3px -3px #8f8c8b, inset 0 2px 2px -2px #8f8c8b, inset 0 1px 1px -1px #8f8c8b, inset -3px 0 3px -3px #201815, inset -2px 0 2px -2px #201815, inset -2px 0 1px -1px #201815, inset 0 -3px 3px -3px #000, inset 0 -2px 2px -2px #000, inset 0 -1px 1px -1px #000, 0 0 2px 0 #201815, 0 0 4px 0 #201815;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    margin-top: 200px;
+    color: white;
+    font-family: "inter";
+}
+
+.form h1 {
+    font-size: 45px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.form p {
+    font-size: 22px;
+    margin: 0;
+}
+
+.form label {
+    font-size: 16px;
+    margin: 0;
+    color: #FFE6C0;
+}
+
+.form hr {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form input {
+    height: 45px;
+    padding-left: 20px;
+    margin: 10px 0;
+    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+    border: none;
+    outline: none;
+}
+
+.form button {
+    font-size: 14px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: rgb(104, 255, 74);
+    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
+}
+
+.form a {
+    margin: 30px auto 20px auto;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
