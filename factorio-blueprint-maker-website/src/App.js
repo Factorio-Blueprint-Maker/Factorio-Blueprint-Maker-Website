@@ -11,6 +11,7 @@ import Account from './Components/Account.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.js';
 import MyBlueprints from './Pages/MyBlueprints/MyBlueprints.js'
 import MyFavoriteBlueprints from './Pages/MyFavorites/MyFavoriteBlueprints';
+import AboutApp from './Pages/AboutApp/AboutApp';
 import AuthRoute from './Components/AuthRoute';
 
 import { AuthProvider } from './Context/authContext.js';
@@ -27,6 +28,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="explore" element={<Content />} />
+            <Route path="about-app" element={<AboutApp/>}/>
             <Route path="explore/blueprint/:blueprintId" element={<BlueprintDetail />} />
 
             <Route path="signin" element={<AuthRoute><Signin /></AuthRoute>} />            

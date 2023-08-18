@@ -1,16 +1,16 @@
-import React from 'react';
-import { useAuth } from '../Context/authContext.js';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Context/authContext.js';
 
 const AuthRoute = ({ children }) => {
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
 
-  if (!currentUser) {
+    const { authenticated } = useAuth();
+    const navigate = useNavigate();
+
+    if (authenticated) {
+        navigate("../account");
+    } 
+
     return children;
-  } else {
-    navigate('/explore');
-    return null;
-  }
 };
+
 export default AuthRoute;

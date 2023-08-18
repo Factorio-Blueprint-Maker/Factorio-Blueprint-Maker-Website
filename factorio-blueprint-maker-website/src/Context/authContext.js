@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext, useLayoutEffect} from 'react';
 import { auth } from "../firebase.js";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { ref, set } from 'firebase/database';
@@ -13,6 +13,20 @@ export function useAuth() {
 export function AuthProvider({ children }) {
 
     const [currentUser, setCurrentUser] = useState({});
+    const [authenticated, setAuthenticated] = useState(false);
+
+
+    auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        localStorage.setItem("currentUser", user?.emailVerified ? user.emailVerified : false);
+    });
+
+    useLayoutEffect(() => {
+        const storedUser = localStorage.getItem("currentUser")
+        const parsedUser = JSON.parse(storedUser);
+        setAuthenticated(parsedUser);
+    }, [])
+
 
     async function signupUser(email, password, username) {
 
@@ -53,19 +67,9 @@ export function AuthProvider({ children }) {
         return signOut(auth);
     }
 
-
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user);
-        });    
-    
-      return unsubscribe;
-    }, []);
-
-
-
     const value = {
         currentUser,
+        authenticated,
         signupUser,
         signinUser,
         signinUserWithGoogle,

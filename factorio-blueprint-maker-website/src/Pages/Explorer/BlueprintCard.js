@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import styles from "../../Styles/BlueprintCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import { useAuth } from '../../Context/authContext';
 
 function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) {
+
+    const { authenticated } = useAuth();
 
     return (
 
@@ -27,11 +29,11 @@ function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) 
 
             <div className={styles.BlueprintLikesContainer}>
 
-              <button onClick={currentUser && (() => handleLikeChange(blueprint.id))}>
-                {currentUser ? 
-                  (blueprint.likes && blueprint.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>)
-                : <FavoriteIcon/> }
-              </button>
+            <button onClick={authenticated ? () => handleLikeChange(blueprint.id) : undefined}>
+            {authenticated ? 
+              (blueprint.likes && blueprint.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>)
+            : <FavoriteIcon/> }
+            </button>
 
               <p>{ blueprint.likes ? Object.keys(blueprint.likes).length : 0 }</p>
 

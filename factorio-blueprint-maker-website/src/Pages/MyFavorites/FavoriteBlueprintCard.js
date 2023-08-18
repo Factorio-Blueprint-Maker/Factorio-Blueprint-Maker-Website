@@ -4,8 +4,11 @@ import styles from "../../Styles/BlueprintCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { useAuth } from '../../Context/authContext';
 
 function FavoriteBlueprintCard({ blueprint, handleLikeChange, currentUser }) {
+
+  const { authenticated } = useAuth();
 
   return (
 
@@ -28,7 +31,7 @@ function FavoriteBlueprintCard({ blueprint, handleLikeChange, currentUser }) {
           <div className={styles.BlueprintLikesContainer}>
 
             <button onClick={currentUser && (() => handleLikeChange(blueprint.id))}>
-              {currentUser ? 
+              {authenticated ? 
                 (blueprint.likes && blueprint.likes[currentUser?.uid] ? <FavoriteIcon/> : <FavoriteBorderIcon/>)
               : <FavoriteIcon/> }
             </button>

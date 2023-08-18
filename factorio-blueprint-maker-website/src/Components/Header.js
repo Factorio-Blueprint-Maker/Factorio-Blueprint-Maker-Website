@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import factorioBlueprintLogo from '../assets/factorio_blueprint_maker_logo.png'; 
 import styles from '../Styles/Header.module.scss';
 import { useAuth } from "../Context/authContext.js";
@@ -11,14 +11,17 @@ import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import StarIcon from '@mui/icons-material/Star';
 
+
 const Header = () => {
 
     const [dropdownVisible, setDropdownVisible] = useState(false); 
-    const { currentUser, signoutUser } = useAuth();
+    const { signoutUser, authenticated } = useAuth();
 
+    const toggleDropdown = (e) => {
+        
+        e.preventDefault();
 
-    const toggleDropdown = () => {
-        if (currentUser) {
+        if (authenticated) {
             setDropdownVisible(!dropdownVisible);
         }
     };
@@ -26,7 +29,6 @@ const Header = () => {
     const closeDropdown = () => {
         setDropdownVisible(false);
     };
-
 
 
     const handleSignout = async () => {
@@ -41,24 +43,36 @@ const Header = () => {
             console.log(error)
         }
     }
-    
+
     return (
         <>
             <div className={styles.navbarContainer}>
                 <a href="./" className={styles.navbarLogo}><img src={factorioBlueprintLogo} alt="logo"/></a>
                 <div className={styles.navbarLinks}>
                     <ul>
-                        <li key="explore"><a href="/explore">Explore</a></li>
+                        <li key="app"><a href="/about-app">Download</a></li>
+                        <li key="explore"><a href="/">Explore</a></li>
                         <li key="donate"><a href="/">Donate</a></li>
+                
+                            { authenticated === true ? (
+                                <li key="signout">
+                                    <a href="./" className={styles.accountIcon} onClick={(e) => toggleDropdown(e)}>
+                                        <AccountCircleIcon sx={{ fontSize: 30 }} />
+                                    </a>
+                                </li>
+                            ) : (
+                                <li key="signin">
+                                    <a href="/signin">Sign In</a>
+                                </li>
+                            )}
+                        
 
-                        {currentUser ? (
-                            <li key="signout" ><a className={styles.accountIcon} onClick={toggleDropdown}><AccountCircleIcon  sx={{ fontSize: 30 }}/></a></li>
-                        ) : (
-                            <li key="signin"><a href="/signin">Sign In</a></li>
-                        )}
                     </ul>
                 </div>
             </div>
+
+
+            
             <div className={styles.test}>
             {dropdownVisible && (   
 

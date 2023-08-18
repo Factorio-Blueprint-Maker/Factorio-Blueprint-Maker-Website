@@ -50,7 +50,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (loading) {
-            navigate('/account');
+            window.location = "./account";
         }
     }, [loading, navigate]);
 
@@ -84,7 +84,6 @@ const Signin = () => {
                     <p>Continue with Steam</p>
                 </button>
 
-                {loading && <p>Loading...</p>} {/* Show loading indicator if loading */}
                 <a href="/signup" className={styles.registerLink}>Register with email</a>
 
             </form>

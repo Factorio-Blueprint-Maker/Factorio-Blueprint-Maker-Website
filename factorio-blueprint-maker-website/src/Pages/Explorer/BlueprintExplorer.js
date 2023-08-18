@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ref, set, get } from "firebase/database";
+import { ref, get } from "firebase/database";
 
 
 import { database } from "../../firebase.js";
