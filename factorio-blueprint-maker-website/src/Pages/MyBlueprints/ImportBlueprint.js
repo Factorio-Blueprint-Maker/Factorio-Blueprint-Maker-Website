@@ -69,7 +69,9 @@ const ImportBlueprint = ( {closePopup} ) => {
                     <label>Publish<input type="checkbox" ref={blueprintPublishState}/></label><br/>
                 </div>
 
-                <button className={styles.importButton} type="submit">Import</button>            
+                <button className={styles.importButton} type="submit">Import</button>          
+
+                {errorMessage}  
             </form>
         </div>
     );

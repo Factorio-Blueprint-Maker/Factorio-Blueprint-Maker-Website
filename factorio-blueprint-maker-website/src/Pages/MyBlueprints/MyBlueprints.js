@@ -31,23 +31,15 @@ const MyBlueprints = (props) => {
 
     const handlePublishBlueprint = (blueprintId, publishState) => {
         publishBlueprint(blueprintId, publishState);
-    };
+    }
 
-
-    // filter the blueprints list to the users own blueprints
     useEffect(() => {
+        const filteredBlueprints = blueprints.filter((blueprint) => {
+            return blueprint.userId === currentUser.uid;
+        })
 
-        const filterBlueprints = () => {
-
-            const filteredBlueprints = blueprints.filter((blueprint) => {
-                return blueprint.userId === currentUser.uid
-            });
-            
-            setCurrentBlueprints(filteredBlueprints);
-        };
-    
-        filterBlueprints();
-    }, [currentUser, blueprints]);
+        setCurrentBlueprints(filteredBlueprints);
+    }, [currentUser, blueprints])
 
 
     // this function toogles scrooling on popup

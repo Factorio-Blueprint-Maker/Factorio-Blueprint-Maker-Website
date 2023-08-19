@@ -1,0 +1,17 @@
+button {
+    cursor: pointer;
+}
+
+:root {
+    --green-button-color: rgb(115, 255, 87);
+    --gray-icon-button-color: rgb(100, 100, 100);
+
+
+    --gray-background-color: rgb(65, 65, 65);
+    --gray-background-hover-color: rgb(80, 80, 80);
+
+    --darkgray-background-color: rgb(35, 35, 35);
+    --darkgray-background-hover-color: rgb(45, 45, 45);
+
+    --lightgray-background-color: rgb(150, 150, 150);
+}

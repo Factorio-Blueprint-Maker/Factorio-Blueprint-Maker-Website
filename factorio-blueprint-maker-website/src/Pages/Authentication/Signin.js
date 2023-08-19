@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../Context/authContext.js';
@@ -8,10 +8,9 @@ import styles from '../../Styles/SigninForm.module.scss';
 import GoogleLogo from '../../assets/google_logo.png';
 import SteamLogo from '../../assets/steam_logo.png';
 
+
 const Signin = () => {
-   
-    const [loading, setLoading] = useState(false); 
-    const [errorMessage, setErrorMessage] = useState("");
+    
     const { signinUser, signinUserWithGoogle } = useAuth();
     const navigate = useNavigate();
 
@@ -22,37 +21,19 @@ const Signin = () => {
 
         e.preventDefault();
 
-        try {
-            // form validation
-            if (!emailInput.current.value || !passwordInput.current.value ) {
-                throw new Error("There's empty input fields")
-            }
-
-            // try to sign in the user with the credentials
-            await signinUser(emailInput.current.value, passwordInput.current.value);
-
-            setLoading(true); 
-
-        } catch (error) {
-            setErrorMessage(error)
-        } 
+        await signinUser(emailInput.current.value, passwordInput.current.value);
+        navigate("/account")
     }
 
     const handleSigninWithGoogle = async () => {
         try {
             await signinUserWithGoogle();
-            setLoading(true); 
+            navigate("/account")
+
         } catch (error) {
             console.log(error.message);
-        } 
-    }
-
-
-    useEffect(() => {
-        if (loading) {
-            window.location = "./account";
         }
-    }, [loading, navigate]);
+    }
 
     return (
         <div className={styles.bodyContainer}>                  

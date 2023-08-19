@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ref, get } from "firebase/database";
 
-
-import { database } from "../../firebase.js";
 import { useAuth } from "../../Context/authContext.js"
 import { useBlueprint } from '../../Context/blueprintContext.js';
 
@@ -22,7 +19,7 @@ const Content = (props) => {
     const [searchResult, setSearchResult] = useState(0);
     const [currentBlueprints, setCurrentBlueprints] = useState([]);
 
-    const { currentUser } = useAuth();
+    const { currentUser, getUsernameFromId } = useAuth();
     const { blueprints, handleLikeChange } = useBlueprint();
 
     const sortingOptions = [
@@ -31,24 +28,6 @@ const Content = (props) => {
         { value: 'byDate', label: 'Newest'}
       ];
 
-    const getUsernameFromId = async (userId) => {
-        const userRef = ref(database, `users/${userId}`);
-    
-        try {
-            const snapshot = await get(userRef);
-    
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                const userName = userData.displayName;
-                return userName; // Return userName
-            } else {
-                return null;
-            }
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            throw error; // Rethrow the error to handle it later
-        }
-    }
 
     /* Update the blueprint list everytime we use the search input, 
        change items per page, change current page or if the blueprints gets updated */
@@ -88,7 +67,7 @@ const Content = (props) => {
 
         filterBlueprints();
 
-    }, [searchInput, currentPage, blueprints, itemsPerPage]);
+    }, [searchInput, currentPage, blueprints, itemsPerPage, getUsernameFromId]);
         
 
 
@@ -100,6 +79,7 @@ const Content = (props) => {
         // scroll to the top of the page when a new page is seleccted
         window.scrollTo({ top: 0, behavior: "smooth" }); 
     };
+
 
     const sortByTopRated = (blueprints) => {
         return blueprints.slice().sort((a, b) => {
@@ -124,19 +104,16 @@ const Content = (props) => {
     };
         
     useEffect(() => {
-        currentBlueprints.forEach(item => {
-            getUsernameFromId(item.userId)
-                .then(userName => {
+        currentBlueprints.forEach(blueprint => {
+            getUsernameFromId(blueprint.userId)
+                .then(username => {
                     setUsernames(prevUsernames => ({
                         ...prevUsernames,
-                        [item.userId]: userName
+                        [blueprint.userId]: username
                     }));
                 })
-                .catch(error => {
-                    console.error("Error fetching user data:", error);
-                });
         });
-    }, [currentBlueprints]);
+    }, [currentBlueprints, getUsernameFromId]);
 
 
     return (

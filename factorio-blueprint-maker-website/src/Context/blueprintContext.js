@@ -1,4 +1,4 @@
-import react, { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { ref, remove, onValue, update, set, push, get } from 'firebase/database';
 
 import { database } from '../firebase';
@@ -15,8 +15,9 @@ export function BlueprintProvider({ children }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [blueprints, setBlueprints] = useState([]);
 
-    const { currentUser } = useAuth();
+    const { currentUser, authenticated } = useAuth();
 
+    
     // this function handles the creation of a blueprint given the blueprint object
     const createBlueprint = async (blueprintObject) => {
 
@@ -72,7 +73,7 @@ export function BlueprintProvider({ children }) {
 
     // this method handles the liking of the blueprint
     const handleLikeChange = async (blueprintId) => {        
-        if (currentUser) {
+        if (authenticated) {
 
             const likeRef = ref(database, `blueprints/${blueprintId}/likes/${currentUser.uid}`);
             
@@ -85,14 +86,29 @@ export function BlueprintProvider({ children }) {
                 set(likeRef, true);
             }
         }
-    };
+    }
+
+    
+    // this method handles the favorite system for the blueprints
+    const handleFavorite = async (blueprintId) => {
+        if (authenticated) {
+            const favoriteRef = await ref(database, "blueprints/" + blueprintId + "/favorites/" + currentUser?.uid);
+
+            const snapshot = await get(favoriteRef);
+    
+            if (snapshot.exists()) {
+                await set(favoriteRef, null);
+            } else {
+                await set(favoriteRef, true);
+            } 
+        }
+    }
     
 
-    // download all the blueprints and store them in the blueprints list
     useEffect(() => {
         const blueprintRef = ref(database, "blueprints/");
-
-        const listener = onValue(blueprintRef, (snapshot) => {
+    
+        onValue(blueprintRef, (snapshot) => {
             const blueprintData = snapshot.val();
             if (blueprintData) {
                 const blueprintList = Object.keys(blueprintData).map((key) => ({
@@ -102,9 +118,14 @@ export function BlueprintProvider({ children }) {
                 setBlueprints(blueprintList);
             }
         });
-
-        return (listener);
+    
     }, []);
+
+    
+    
+    
+    
+    
 
 
     const value = {
@@ -114,7 +135,8 @@ export function BlueprintProvider({ children }) {
         publishBlueprint,
         createBlueprint,
         getBlueprintData,
-        handleLikeChange
+        handleLikeChange,
+        handleFavorite
     };
 
     return (

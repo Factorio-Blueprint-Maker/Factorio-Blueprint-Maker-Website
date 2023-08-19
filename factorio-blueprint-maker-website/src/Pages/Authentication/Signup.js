@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; // Removed unused import 'useRef'
 import { useAuth } from "../../Context/authContext.js";
 import styles from "../../Styles/SignupForm.module.scss";
+import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
     const { signupUser } = useAuth();
@@ -9,6 +10,8 @@ const Signin = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const navigate = useNavigate();
+
     const handleEmailAndUsername = (e) => {
       e.preventDefault();
       // Update the username and email states
@@ -16,15 +19,20 @@ const Signin = () => {
       setEmail(e.target.elements.email.value);
   };
 
-  const handlePassword = (e) => {
+  const handlePassword = async (e) => {
+    
     e.preventDefault();
     const enteredPassword = e.target.elements.password.value;
     const enteredConfirmPassword = e.target.elements.confirmPassword.value;
 
     if (enteredPassword === enteredConfirmPassword) {
-        setPassword(enteredPassword);
-        setConfirmPassword(enteredConfirmPassword);
-        signupUser(email, enteredPassword, username);
+        
+        await setPassword(enteredPassword);
+        await setConfirmPassword(enteredConfirmPassword);
+
+        await signupUser(email, password, confirmPassword);
+        navigate("/verify-email"); 
+
     } else {
         console.log("Passwords do not match");
     }

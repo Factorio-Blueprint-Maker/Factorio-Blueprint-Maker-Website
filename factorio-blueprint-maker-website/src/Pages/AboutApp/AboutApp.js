@@ -6,7 +6,7 @@ import styles from "../../Styles/AboutApp.module.scss";
 import { useAuth } from "../../Context/authContext";
 
 const AboutApp = () => {
-    const {currentUser, authenticated} = useAuth();
+    const {authenticated} = useAuth();
 
     useEffect(() => {
         console.log(authenticated);

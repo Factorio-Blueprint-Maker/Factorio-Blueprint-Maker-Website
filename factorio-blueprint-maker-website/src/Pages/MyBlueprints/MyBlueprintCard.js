@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '../../Styles/MyBlueprintCard.module.scss';
@@ -8,7 +8,7 @@ import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprint}) {
+const BlueprintCard = memo(({ blueprint, handleDeleteBlueprint, handlePublishBlueprint }) => {
 
   
     return (
@@ -39,7 +39,7 @@ function BlueprintCard({ blueprint, handleDeleteBlueprint, handlePublishBlueprin
         </li>
       </div>
     );
-  }
+  })
 
 
 

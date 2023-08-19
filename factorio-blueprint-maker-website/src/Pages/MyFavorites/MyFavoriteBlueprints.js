@@ -29,7 +29,7 @@ const MyFavoriteBlueprints = () => {
     
         filterBlueprints();
 
-    }, [blueprints]);
+    }, [blueprints, currentUser]);
 
 
     return (

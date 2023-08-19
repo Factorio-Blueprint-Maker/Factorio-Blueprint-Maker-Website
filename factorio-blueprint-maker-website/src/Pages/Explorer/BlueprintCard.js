@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { Link } from 'react-router-dom';
 import styles from "../../Styles/BlueprintCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useAuth } from '../../Context/authContext';
 
-function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) {
+const BlueprintCard = memo(({ blueprint, usernames, handleLikeChange, currentUser }) => {
 
     const { authenticated } = useAuth();
 
@@ -42,7 +42,7 @@ function BlueprintCard({ blueprint, usernames, handleLikeChange, currentUser }) 
         </li>
       </div>
     );
-  }
+  });
 
 
 

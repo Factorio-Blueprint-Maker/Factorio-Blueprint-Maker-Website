@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState } from 'react';
 import factorioBlueprintLogo from '../assets/factorio_blueprint_maker_logo.png'; 
 import styles from '../Styles/Header.module.scss';
 import { useAuth } from "../Context/authContext.js";
@@ -35,10 +35,6 @@ const Header = () => {
         try {
             await signoutUser();
             closeDropdown();
-
-            // redirect the user to the signin page
-            window.location.href = "./signin";
-
         } catch (error) {
             console.log(error)
         }
@@ -47,16 +43,16 @@ const Header = () => {
     return (
         <>
             <div className={styles.navbarContainer}>
-                <a href="./" className={styles.navbarLogo}><img src={factorioBlueprintLogo} alt="logo"/></a>
+                <a href="/explore" className={styles.navbarLogo}><img src={factorioBlueprintLogo} alt="logo"/></a>
                 <div className={styles.navbarLinks}>
                     <ul>
                         <li key="app"><a href="/about-app">Download</a></li>
-                        <li key="explore"><a href="/">Explore</a></li>
+                        <li key="explore"><a href="/explore">Explore</a></li>
                         <li key="donate"><a href="/">Donate</a></li>
                 
                             { authenticated === true ? (
                                 <li key="signout">
-                                    <a href="./" className={styles.accountIcon} onClick={(e) => toggleDropdown(e)}>
+                                    <a href="/" className={styles.accountIcon} onClick={(e) => toggleDropdown(e)}>
                                         <AccountCircleIcon sx={{ fontSize: 30 }} />
                                     </a>
                                 </li>
@@ -77,13 +73,13 @@ const Header = () => {
             {dropdownVisible && (   
 
             <ul className={styles.accountDropdown}>
-                <li key="accountPage"><ManageAccountsIcon/><a href="/../account" onClick={closeDropdown}>My Account</a></li>
-                <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/../my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
-                <li key="myCollectionsPage"><AutoStoriesIcon/><a href="./" onClick={closeDropdown}>My Collections</a></li>
-                <li key="MyFavoritesPage"><StarIcon/><a href="/../my-favorites" onClick={closeDropdown}>My Favorites</a></li>
+                <li key="accountPage"><ManageAccountsIcon/><a href="/account" onClick={closeDropdown}>My Account</a></li>
+                <li key="myBlueprintsPage"><AppRegistrationIcon/><a href="/my-blueprints" onClick={closeDropdown}>My Blueprints</a></li>
+                <li key="myCollectionsPage"><AutoStoriesIcon/><a href="/" onClick={closeDropdown}>My Collections</a></li>
+                <li key="MyFavoritesPage"><StarIcon/><a href="/my-favorites" onClick={closeDropdown}>My Favorites</a></li>
                 <hr/>
-                <li key="helpPage"><HelpIcon/><a href="./" onClick={closeDropdown}>Help</a></li>
-                <li key="logoutPage"><LogoutIcon/><a href="./" onClick={handleSignout}>Sign Out</a></li>
+                <li key="helpPage"><HelpIcon/><a href="/" onClick={closeDropdown}>Help</a></li>
+                <li key="logoutPage"><LogoutIcon/><a href="/" onClick={handleSignout}>Sign Out</a></li>
             </ul>
                )}
             </div>

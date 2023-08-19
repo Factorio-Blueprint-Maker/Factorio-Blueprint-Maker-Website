@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from "../../Styles/BlueprintCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useAuth } from '../../Context/authContext';
 
 function FavoriteBlueprintCard({ blueprint, handleLikeChange, currentUser }) {
 
-  const { authenticated } = useAuth();
+  const { authenticated, getUsernameFromId } = useAuth();
+  const [blueprintCreator, setBlueprintCreator] = useState("");
+
+  useEffect(() => {
+    getUsernameFromId(blueprint.userId).then((username) => {setBlueprintCreator(username)});
+  }, [blueprint, getUsernameFromId])
 
   return (
 
@@ -26,7 +30,7 @@ function FavoriteBlueprintCard({ blueprint, handleLikeChange, currentUser }) {
         </div>
         <div className={styles.BlueprintLowerContainer}>
 
-          <p>Created by: Coming Soon</p>
+          <p>Created by: {blueprintCreator}</p>
 
           <div className={styles.BlueprintLikesContainer}>
 
