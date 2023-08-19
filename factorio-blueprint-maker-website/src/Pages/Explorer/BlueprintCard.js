@@ -25,7 +25,7 @@ const BlueprintCard = memo(({ blueprint, usernames, handleLikeChange, currentUse
 
           <div className={styles.BlueprintLowerContainer}>
 
-            <p>Created by: {usernames[blueprint.userId]}</p>
+            <p><Link to={`/explore/${blueprint.userId}`}>Created by: {usernames[blueprint.userId]}</Link></p>
 
             <div className={styles.BlueprintLikesContainer}>
 

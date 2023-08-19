@@ -6,6 +6,7 @@ import { useBlueprint } from "../../Context/blueprintContext.js";
 import ImportBlueprint from "./ImportBlueprint.js";
 import CardLayout from "../../Components/CardLayout.js";
 import MyBlueprintCard from "./MyBlueprintCard.js"
+import LockIcon from '@mui/icons-material/Lock';
 
 import styles from '../../Styles/MyBlueprints.module.scss'
 
@@ -59,7 +60,7 @@ const MyBlueprints = (props) => {
 
         <div className={styles.myBlueprintsContainer}>
             <div className={styles.upperContainer}>
-                <h1>My Blueprints</h1>
+                <h1>My Blueprints <p><LockIcon fontSize="inherit"/></p></h1>
                 <button onClick={handleTogglePopup}>Import Blueprint</button>
             </div>
             <hr/>

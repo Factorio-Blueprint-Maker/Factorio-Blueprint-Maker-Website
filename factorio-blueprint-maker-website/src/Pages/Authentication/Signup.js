@@ -27,10 +27,10 @@ const Signin = () => {
 
     if (enteredPassword === enteredConfirmPassword) {
         
-        await setPassword(enteredPassword);
-        await setConfirmPassword(enteredConfirmPassword);
+        setPassword(enteredPassword);
+        setConfirmPassword(enteredConfirmPassword);
 
-        await signupUser(email, password, confirmPassword);
+        await signupUser(email, enteredPassword, username);
         navigate("/verify-email"); 
 
     } else {

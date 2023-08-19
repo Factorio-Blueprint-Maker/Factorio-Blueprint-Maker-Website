@@ -30,7 +30,7 @@ function FavoriteBlueprintCard({ blueprint, handleLikeChange, currentUser }) {
         </div>
         <div className={styles.BlueprintLowerContainer}>
 
-          <p>Created by: {blueprintCreator}</p>
+          <p>Created by: <Link to={`/explore/${blueprint?.userId}`}>{blueprintCreator}</Link></p>
 
           <div className={styles.BlueprintLikesContainer}>
 

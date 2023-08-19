@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 import { useAuth } from "../../Context/authContext.js"
 import { useBlueprint } from '../../Context/blueprintContext.js';
 
@@ -52,6 +53,7 @@ const Content = (props) => {
                 blueprint.blueprintTitle.toLowerCase().includes(searchInput.toLowerCase()) ||
                 blueprint.blueprintDescription.toLowerCase().includes(searchInput.toLowerCase()) ||
                 (usernames[index] && usernames[index].toLowerCase().includes(searchInput.toLowerCase())) 
+                
             ).filter((blueprint) => blueprint.publish === true);
 
             // set the search result before proceeding to pagination
@@ -67,7 +69,7 @@ const Content = (props) => {
 
         filterBlueprints();
 
-    }, [searchInput, currentPage, blueprints, itemsPerPage, getUsernameFromId]);
+    }, [searchInput, currentPage, blueprints, getUsernameFromId, itemsPerPage]);
         
 
 

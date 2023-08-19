@@ -1,8 +1,11 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { ref, remove, onValue, update, set, push, get } from 'firebase/database';
+import { ref as storageRef, getDownloadURL } from 'firebase/storage';
 
 import { database } from '../firebase';
 import { useAuth } from './authContext';
+
+import { storage } from '../firebase';
 
 const blueprintContext = createContext();
 
@@ -122,9 +125,38 @@ export function BlueprintProvider({ children }) {
     }, []);
 
     
-    
-    
-    
+
+    const getEnergyConsumption = async (blueprintJson) => {
+
+
+        try {
+            if (blueprintJson?.blueprint?.entities) {
+                // fetch factorio item data from cloud storage
+                const itemRef = storageRef(storage, "data/factorio-parts.json")
+                const storageUrl = await getDownloadURL(itemRef);
+                
+                const response = await fetch(storageUrl);
+                const data = await response.json();
+
+                let items = [];
+                let totalEnergyConsumption = 0;
+
+                await data.parts.forEach(part => {
+                    items[part["name"]] = part["energy-consumption"];
+                })
+
+                await blueprintJson.blueprint.entities.forEach(blueprintPart => {
+                    const energy = items[blueprintPart.name] || 0;
+                    totalEnergyConsumption += energy;
+                })
+                
+                return totalEnergyConsumption;
+            }
+        } catch (error) {
+            throw new Error(error.message);
+        } 
+    }
+
     
 
 
@@ -136,7 +168,8 @@ export function BlueprintProvider({ children }) {
         createBlueprint,
         getBlueprintData,
         handleLikeChange,
-        handleFavorite
+        handleFavorite,
+        getEnergyConsumption
     };
 
     return (
