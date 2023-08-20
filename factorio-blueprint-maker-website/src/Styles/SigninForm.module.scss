@@ -1,3 +1,5 @@
+@import "./Globals.scss";
+
 .bodyContainer {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../assets/background-2.jpg");
     width: 100%;
@@ -11,28 +13,48 @@
     width: 420px;
     margin-top: 180px;
     background-color: rgb(37, 37, 37);
-    box-shadow: inset 3px 0 3px -3px #201815, inset 2px 0 2px -2px #201815, inset 1px 0 1px -1px #201815, inset 0 3px 3px -3px #8f8c8b, inset 0 2px 2px -2px #8f8c8b, inset 0 1px 1px -1px #8f8c8b, inset -3px 0 3px -3px #201815, inset -2px 0 2px -2px #201815, inset -2px 0 1px -1px #201815, inset 0 -3px 3px -3px #000, inset 0 -2px 2px -2px #000, inset 0 -1px 1px -1px #000, 0 0 2px 0 #201815, 0 0 4px 0 #201815;
+    box-shadow: $outerBoxShadow;
     color: white;
-    font-family: "inter";
     display: flex;
     padding: 40px;
     flex-direction: column;
+
+    input {
+        height: 45px;
+        padding-left: 20px;
+        margin: 10px 0;
+        box-shadow: $outerBoxShadow;
+        border: none;
+        outline: none;
+    }
+
+    button {
+        font-size: 14px;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: $outerBoxShadow;
+    }
+
+    button:hover {
+        box-shadow: $innerBoxShadow;
+    }
 }
 
 .textContainer {
    margin-bottom: 10px;
-}
 
-.textContainer h1 {
+   h1 {
     font-size: 45px;
     font-weight: 500;
     margin: 0;
-}
+   }
 
-.textContainer p {
+   p {
     font-size: 22px;
-    margin: 0;
     color: #FFE6C0;
+    margin: 0;
+   }
 }
 
 .middleContainer {
@@ -41,39 +63,14 @@
     flex-direction: row;
     align-items: center;
     margin: 10px 0;
-}
 
-.middleContainer hr {
-    width: 100%;
-}
+    hr {
+        width: 100%;
+    }
 
-.middleContainer p {
-    margin: 0 10px;
-}
-
-.signin form {
-    display: flex;
-}
-
-.signInForm input {
-    height: 45px;
-    padding-left: 20px;
-    margin: 10px 0;
-    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
-    border: none;
-    outline: none;
-}
-
-.signInForm button {
-    font-size: 14px;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
-}
-
-.signInForm button:hover { 
-    box-shadow: inset 0 0 3px 0 #000, 0 -2px 2px -1px #000, -2px 0 2px -2px #28221f, -2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 0 3px 3px -3px #8f8c8b, 0 2px 2px -2px #8f8c8b, 0 1px 1px -1px #8f8c8b;
+    p {
+        margin: 0 10px;
+    }
 }
 
 .signInBtn {
@@ -81,52 +78,48 @@
     background-color: var(--green-button-color);
 }
 
-.forgotPasswordLink {
-    color: white;
+a {
     text-decoration: none;
+    color: white;
     font-size: 14px;
+}
+
+.forgotPasswordLink {
     margin: -10px 0 10px auto;
 }
 
 .registerLink {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
     margin: 20px auto 10px auto;
 }
 
 .signInWithGoogleBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include centerAlignment();
+    font-family: "inter", sans-serif;
     margin: 10px 0;
-}
 
-.signInWithGoogleBtn p {
-    font-family: "inter";
-    font-weight: 500;
-    margin-left: 30px;
-}
+    p {
+        font-weight: 500;
+        margin-left: 30px;
+    }
 
-.signInWithGoogleBtn img {
-    width: 32px;
+    img {
+        width: 32px;
+    }
 }
 
 .signInWithSteamBtn {
+    @include centerAlignment();
     background-color: #17212C;
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin: 10px 0;
-}
+    font-family: "inter", sans-serif;
 
-.signInWithSteamBtn p {
-    font-family: "inter";
-    font-weight: 400;
-    margin-left: 30px;
-}
+    p {
+        font-weight: 400;
+        margin-left: 30px;
+    }
 
-.signInWithSteamBtn img {
-    width: 32px;
+    img {
+        width: 32px;
+    }
 }

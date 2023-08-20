@@ -9,6 +9,7 @@ import MyBlueprintCard from "./MyBlueprintCard.js"
 import LockIcon from '@mui/icons-material/Lock';
 
 import styles from '../../Styles/MyBlueprints.module.scss'
+import Backdrop from '@mui/material/Backdrop';
 
 
 const MyBlueprints = (props) => {
@@ -56,11 +57,19 @@ const MyBlueprints = (props) => {
     
     return (
         <>  
-        {popupState && <ImportBlueprint closePopup={handleTogglePopup} />}
-
+        {popupState && 
+        <>
+            <ImportBlueprint closePopup={handleTogglePopup} />
+            <Backdrop
+            sx={{ color: '#fff', zIndex: 2 }}
+            open={popupState}
+            ></Backdrop>
+        </>
+        }
+        
         <div className={styles.myBlueprintsContainer}>
             <div className={styles.upperContainer}>
-                <h1>My Blueprints <p><LockIcon fontSize="inherit"/></p></h1>
+                <h1><p><LockIcon fontSize="inherit"/></p>My Blueprints</h1>
                 <button onClick={handleTogglePopup}>Import Blueprint</button>
             </div>
             <hr/>

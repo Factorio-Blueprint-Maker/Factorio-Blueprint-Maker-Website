@@ -8,6 +8,7 @@ import { useAuth } from "../Context/authContext.js"
 
 import styles from '../Styles/MyBlueprints.module.scss'
 import { useParams } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 
 const ExploreUserBlueprint = () => {
 
@@ -46,7 +47,8 @@ const ExploreUserBlueprint = () => {
     return (
         <div className={styles.myBlueprintsContainer}>
             <div className={styles.upperContainer}>
-                <h1>{username}'s Blueprints</h1>
+                <h1><p><PersonIcon fontSize="inherit"/></p>{username}'s Blueprints</h1>
+
             </div>
             <hr/>
             <div className={styles.myBlueprintsContent}>

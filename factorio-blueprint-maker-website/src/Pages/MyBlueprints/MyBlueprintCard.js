@@ -10,7 +10,6 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const BlueprintCard = memo(({ blueprint, handleDeleteBlueprint, handlePublishBlueprint }) => {
 
-  
     return (
       <div className={styles.BlueprintCard}>
         <li key={blueprint.id}>

@@ -197,7 +197,8 @@ const  BlueprintDetail = memo(() => {
     {!loading ? (
 
       <div className={styles.blueprintDetailContainer}>
-
+        <h4>Blueprint Details</h4>
+            <hr/>
         <div className={styles.blueprintDetailHeader}>
           <div className={styles.copyButtons}>
             <button className={styles.copyStringToClipboardBtn} onClick={handleCopyStringToClipboard}>{!copyStringClicked ? "Copy String" : "Copied"}</button>

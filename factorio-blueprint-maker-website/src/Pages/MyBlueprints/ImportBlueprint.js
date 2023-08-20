@@ -50,8 +50,9 @@ const ImportBlueprint = ( {closePopup} ) => {
     }
 
     return (
-        <div className={styles.blur}>
+        <div className={styles.container}>
             <form className={styles.importBlueprintPopup}  onSubmit={(e) => handleCreateBlueprint(e)}>
+
                 <button className={styles.closePopup} onClick={closePopup}><CloseIcon/></button>
                 <h1>Import Blueprint</h1>
                 <hr/>
@@ -73,6 +74,7 @@ const ImportBlueprint = ( {closePopup} ) => {
 
                 {errorMessage}  
             </form>
+   
         </div>
     );
 }

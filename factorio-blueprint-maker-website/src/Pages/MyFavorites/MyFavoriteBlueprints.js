@@ -7,7 +7,7 @@ import { useBlueprint } from "../../Context/blueprintContext.js";
 import { useAuth } from "../../Context/authContext.js"
 
 import styles from '../../Styles/MyBlueprints.module.scss'
-
+import { Star } from "@mui/icons-material";
 const MyFavoriteBlueprints = () => {
 
     const { blueprints, handleLikeChange } = useBlueprint();
@@ -21,7 +21,7 @@ const MyFavoriteBlueprints = () => {
         const filterBlueprints = () => {
 
             const filteredBlueprints = blueprints.filter((blueprint) => {
-                return blueprint.favorites && blueprint.favorites[currentUser?.uid];
+                return blueprint.favorites && blueprint.favorites[currentUser?.uid] && (blueprint.publish || currentUser?.uid === blueprint.userId);
             });
             
             setCurrentBlueprints(filteredBlueprints);
@@ -35,7 +35,7 @@ const MyFavoriteBlueprints = () => {
     return (
         <div className={styles.myBlueprintsContainer}>
             <div className={styles.upperContainer}>
-                <h1>My Favorite Blueprints</h1>
+                <h1><p><Star fontSize="inherit"/></p>My Favorite Blueprints</h1>
             </div>
             <hr/>
             <div className={styles.myBlueprintsContent}>

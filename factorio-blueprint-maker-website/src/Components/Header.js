@@ -69,7 +69,7 @@ const Header = () => {
 
 
             
-            <div className={styles.test}>
+            <div className={styles.dropDownContainer}>
             {dropdownVisible && (   
 
             <ul className={styles.accountDropdown}>

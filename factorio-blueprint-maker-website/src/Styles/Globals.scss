@@ -3,6 +3,8 @@ button {
 }
 
 :root {
+    font-family: "inter", sans-serif;
+
     --green-button-color: #73ff57;
     --gray-icon-button-color: #646464;
 
@@ -15,3 +17,35 @@ button {
 
     --lightgray-background-color: rgb(150, 150, 150);
 }
+
+$innerBoxShadow: inset 0 0 3px 0 #000, 0 -2px 2px -1px #000, -2px 0 2px -2px #28221f, -2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 2px 0 2px -2px #28221f, 0 3px 3px -3px #8f8c8b, 0 2px 2px -2px #8f8c8b, 0 1px 1px -1px #8f8c8b;
+$outerBoxShadow: inset 3px 0 3px -3px #201815, inset 2px 0 2px -2px #201815, inset 1px 0 1px -1px #201815, inset 0 3px 3px -3px #8f8c8b, inset 0 2px 2px -2px #8f8c8b, inset 0 1px 1px -1px #8f8c8b, inset -3px 0 3px -3px #201815, inset -2px 0 2px -2px #201815, inset -2px 0 1px -1px #201815, inset 0 -3px 3px -3px #000, inset 0 -2px 2px -2px #000, inset 0 -1px 1px -1px #000, 0 0 2px 0 #201815, 0 0 4px 0 #201815;
+
+@mixin hoverInformation($content) {
+    content: $content;
+    position: absolute;
+    padding: 5px 10px;
+    background-color: rgba(240, 240, 240, 0.8); 
+    font-size: 14px;
+    border-radius: 5px;
+    color: #000000; 
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+@mixin iconButtonStandards() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 200px;
+}
+
+@mixin centerAlignment() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

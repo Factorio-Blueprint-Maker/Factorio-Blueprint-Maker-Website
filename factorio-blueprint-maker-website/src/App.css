@@ -2,8 +2,6 @@ body {
   background: #5a5656;
 } 
 
-
-
 .blueprint-content {
   left: 50%;
   transform: translateX(-50%);
@@ -11,6 +9,7 @@ body {
   width: 80%;
   min-height: 150vh;
 }
+
 .signin-form {
   position: absolute;
   margin: 400px 400px;
@@ -89,8 +88,6 @@ body {
   box-shadow: rgb(0, 0, 0) 8px 0px 4px -8px inset, rgb(0, 0, 0) -8px 0px 4px -8px inset, rgb(0, 0, 0) 0px -9px 2px -8px inset, rgb(0, 0, 0) 0px 0px 4px 0px;
   
 }
-
-
 
 .test {
   width: 100%;
